@@ -1,0 +1,15 @@
+target/*
+.settings/*
+.classpath
+.project
+.idea
+*.iml
+.gradle
+bin/
+/target
+
+generated/
+
+# Easier branch switching
+springboot-petclinic-client/
+springboot-petclinic-server/

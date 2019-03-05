@@ -1,6 +1,17 @@
-build:
+---
+kind: pipeline
+name: linux-amd64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: test
   image: java:openjdk-8
   environment:
     - GRADLE_USER_HOME=~/.gradle
   commands:
     - ./gradlew test
+    
+...

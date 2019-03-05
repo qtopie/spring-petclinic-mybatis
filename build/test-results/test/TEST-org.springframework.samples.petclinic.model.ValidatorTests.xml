@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.springframework.samples.petclinic.model.ValidatorTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-03-05T14:43:12" hostname="ky-laptop" time="0.368">
-  <properties/>
-  <testcase name="shouldNotValidateWhenFirstNameEmpty" classname="org.springframework.samples.petclinic.model.ValidatorTests" time="0.368"/>
-  <system-out><![CDATA[INFO  Version - HV000001: Hibernate Validator 5.3.5.Final
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

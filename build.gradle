@@ -33,6 +33,7 @@ dependencies {
     compile('org.springframework.data:spring-data-jdbc-core:' + springDataJdbcVersion) {
         exclude group: 'org.springframework', module:'*'
     }
+    compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2")
 
     compile('com.fasterxml.jackson.core:jackson-core')
     compile('com.fasterxml.jackson.core:jackson-databind')
@@ -40,11 +41,11 @@ dependencies {
 
     compile('io.springfox:springfox-swagger2:' + springfoxSwaggerVersion)
     compile('io.springfox:springfox-swagger-ui:' + springfoxSwaggerVersion)
-    
+
     runtime('org.hsqldb:hsqldb')
     runtime('mysql:mysql-connector-java')
     runtime('org.postgresql:postgresql')
-    
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
     testCompile('org.mockito:mockito-core')

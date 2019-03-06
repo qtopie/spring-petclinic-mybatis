@@ -28,7 +28,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Visit;
-import org.springframework.samples.petclinic.repository.PetTypeRepository;
+import org.springframework.samples.petclinic.repository.PetTypeMapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -38,7 +38,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("jpa")
-public class JpaPetTypeRepositoryImpl implements PetTypeRepository {
+public class JpaPetTypeRepositoryImpl implements PetTypeMapper {
 	
     @PersistenceContext
     private EntityManager em;

@@ -16,12 +16,13 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.orm.ObjectRetrievalFailureException;
+import org.springframework.samples.petclinic.mapper.PetMapper;
+import org.springframework.samples.petclinic.mapper.PetTypeMapper;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -29,8 +30,6 @@ import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
-import org.springframework.samples.petclinic.repository.PetRepository;
-import org.springframework.samples.petclinic.repository.PetTypeRepository;
 import org.springframework.samples.petclinic.repository.SpecialtyRepository;
 import org.springframework.samples.petclinic.repository.VetRepository;
 import org.springframework.samples.petclinic.repository.VisitRepository;
@@ -45,42 +44,41 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Vitaliy Fedoriv
  */
 @Service
-
 public class ClinicServiceImpl implements ClinicService {
 
-    private PetRepository petRepository;
+    private PetMapper petMapper;
     private VetRepository vetRepository;
     private OwnerRepository ownerRepository;
     private VisitRepository visitRepository;
     private SpecialtyRepository specialtyRepository;
-	private PetTypeRepository petTypeRepository;
+	private PetTypeMapper petTypeMapper;
 
     @Autowired
      public ClinicServiceImpl(
-       		 PetRepository petRepository,
+       		 PetMapper petMapper,
     		 VetRepository vetRepository,
     		 OwnerRepository ownerRepository,
     		 VisitRepository visitRepository,
     		 SpecialtyRepository specialtyRepository,
-			 PetTypeRepository petTypeRepository) {
-        this.petRepository = petRepository;
+			 PetTypeMapper petTypeMapper) {
+        this.petMapper = petMapper;
         this.vetRepository = vetRepository;
         this.ownerRepository = ownerRepository;
         this.visitRepository = visitRepository;
         this.specialtyRepository = specialtyRepository; 
-		this.petTypeRepository = petTypeRepository;
+		this.petTypeMapper = petTypeMapper;
     }
 
 	@Override
 	@Transactional(readOnly = true)
 	public Collection<Pet> findAllPets() throws DataAccessException {
-		return petRepository.findAll();
+		return petMapper.findAll();
 	}
 
 	@Override
 	@Transactional
 	public void deletePet(Pet pet) throws DataAccessException {
-		petRepository.delete(pet);
+		petMapper.delete(pet);
 	}
 
 	@Override
@@ -156,7 +154,7 @@ public class ClinicServiceImpl implements ClinicService {
 	public PetType findPetTypeById(int petTypeId) {
 		PetType petType = null;
 		try {
-			petType = petTypeRepository.findById(petTypeId);
+			petType = petTypeMapper.findById(petTypeId);
 		} catch (ObjectRetrievalFailureException|EmptyResultDataAccessException e) {
 		// just ignore not found exceptions for Jdbc/Jpa realization
 			return null;
@@ -167,19 +165,19 @@ public class ClinicServiceImpl implements ClinicService {
 	@Override
 	@Transactional(readOnly = true)
 	public Collection<PetType> findAllPetTypes() throws DataAccessException {
-		return petTypeRepository.findAll();
+		return petTypeMapper.findAll();
 	}
 
 	@Override
 	@Transactional
 	public void savePetType(PetType petType) throws DataAccessException {
-		petTypeRepository.save(petType);
+		petTypeMapper.save(petType);
 	}
 
 	@Override
 	@Transactional
 	public void deletePetType(PetType petType) throws DataAccessException {
-		petTypeRepository.delete(petType);
+		petTypeMapper.delete(petType);
 	}
 
 	@Override
@@ -216,7 +214,7 @@ public class ClinicServiceImpl implements ClinicService {
 	@Override
 	@Transactional(readOnly = true)
 	public Collection<PetType> findPetTypes() throws DataAccessException {
-		return petRepository.findPetTypes();
+		return petMapper.findPetTypes();
 	}
 
 	@Override
@@ -237,7 +235,7 @@ public class ClinicServiceImpl implements ClinicService {
 	public Pet findPetById(int id) throws DataAccessException {
 		Pet pet = null;
 		try {
-			pet = petRepository.findById(id);
+			pet = petMapper.findById(id);
 		} catch (ObjectRetrievalFailureException|EmptyResultDataAccessException e) {
 		// just ignore not found exceptions for Jdbc/Jpa realization
 			return null;
@@ -248,7 +246,7 @@ public class ClinicServiceImpl implements ClinicService {
 	@Override
 	@Transactional
 	public void savePet(Pet pet) throws DataAccessException {
-		petRepository.save(pet);
+		petMapper.save(pet);
 		
 	}
 

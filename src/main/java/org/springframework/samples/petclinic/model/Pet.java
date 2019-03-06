@@ -55,7 +55,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize(using = JacksonCustomPetSerializer.class)
 @JsonDeserialize(using = JacksonCustomPetDeserializer.class)
 public class Pet extends NamedEntity {
-
+  
+  
     @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy/MM/dd")

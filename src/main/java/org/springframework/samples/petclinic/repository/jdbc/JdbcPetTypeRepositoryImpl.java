@@ -36,7 +36,7 @@ import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Visit;
-import org.springframework.samples.petclinic.repository.PetTypeRepository;
+import org.springframework.samples.petclinic.repository.PetTypeMapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -46,7 +46,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("jdbc")
-public class JdbcPetTypeRepositoryImpl implements PetTypeRepository {
+public class JdbcPetTypeRepositoryImpl implements PetTypeMapper {
 	
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	

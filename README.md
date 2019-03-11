@@ -1,6 +1,8 @@
 # REST version of Spring PetClinic Sample Application (spring-framework-petclinic extend )
  [![Build Status](https://cloud.drone.io/api/badges/artificerpi/spring-petclinic-mybatis/status.svg)](https://cloud.drone.io/artificerpi/spring-petclinic-mybatis)
 
+[中文](./README-zh.md)
+
 This backend version of the Spring Petclinic application only provides a REST API. **There is no UI**.
 The [spring-petclinic-angular project](https://github.com/spring-petclinic/spring-petclinic-angular) is a Angular 5 front-end application witch consumes the REST API.
 

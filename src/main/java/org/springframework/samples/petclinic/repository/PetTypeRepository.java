@@ -26,7 +26,7 @@ import org.springframework.samples.petclinic.model.PetType;
  *
  */
 
-public interface PetTypeMapper {
+public interface PetTypeRepository {
 	
 	PetType findById(int id) throws DataAccessException;
 	

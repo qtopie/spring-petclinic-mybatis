@@ -4,10 +4,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
@@ -42,7 +41,6 @@ public interface PetMapper {
   })
   Pet findById(int id) throws DataAccessException;
 
-  @Insert("INSERT INTO pets() values")
   void save(Pet pet) throws DataAccessException;
   
   @Select("SELECT * FROM pets")

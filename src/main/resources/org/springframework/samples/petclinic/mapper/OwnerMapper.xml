@@ -14,24 +14,28 @@
         select * from owners where last_name like #{pattern}
     </select>
     
-    <insert id="save" parameterType="org.springframework.samples.petclinic.model.Owner">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" 
+    	parameterType="org.springframework.samples.petclinic.model.Owner">
     	INSERT INTO owners
     		(id,
-    		name,
+    		first_name,
+    		last_name,
     		address,
     		city,
     		telephone) 
     	VALUES(
 	    	#{id}, 
-	    	#{name}, 
+	    	#{firstName}, 
+	    	#{lastName},
 	    	#{address}, 
 	    	#{city}, 
 	    	#{telephone}
     		)
     	ON DUPLICATE KEY UPDATE 
-    		name=#{name}
-    		address=#{address}
-    		city=#{city}
+    		first_name=#{firstName},
+    		last_name=#{lastName},
+    		address=#{address},
+    		city=#{city},
     		telephone=#{telephone};
     </insert>
 </mapper>

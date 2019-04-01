@@ -46,8 +46,8 @@ public class JacksonCustomVisitSerializer extends StdSerializer<Visit> {
 
 	@Override
 	public void serialize(Visit visit, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-		if ((visit == null) || (visit.getPet() == null)) {
-			throw new IOException("Cannot serialize Visit object - visit or visit.pet is null");
+		if ((visit == null) || (visit.getPetId() == null)) {
+			throw new IOException("Cannot serialize Visit object - visit or visit.petId is null");
 		}
 		Format formatter = new SimpleDateFormat("yyyy/MM/dd");
 		jgen.writeStartObject(); // visit
@@ -59,40 +59,12 @@ public class JacksonCustomVisitSerializer extends StdSerializer<Visit> {
 		jgen.writeStringField("date", formatter.format(visit.getDate()));
 		jgen.writeStringField("description", visit.getDescription());
 
-		Pet pet = visit.getPet();
-		jgen.writeObjectFieldStart("pet");
-		if (pet.getId() == null) {
-			jgen.writeNullField("id");
-		} else {
-			jgen.writeNumberField("id", pet.getId());
-		}
-		jgen.writeStringField("name", pet.getName());
-		jgen.writeStringField("birthDate", formatter.format(pet.getBirthDate()));
-
-		PetType petType = pet.getType();
-		jgen.writeObjectFieldStart("type");
-		if (petType.getId() == null) {
-			jgen.writeNullField("id");
-		} else {
-			jgen.writeNumberField("id", petType.getId());
-		}
-		jgen.writeStringField("name", petType.getName());
-		jgen.writeEndObject(); // type
-
-		Owner owner = pet.getOwner();
-		jgen.writeObjectFieldStart("owner");
-		if (owner.getId() == null) {
-			jgen.writeNullField("id");
-		} else {
-			jgen.writeNumberField("id", owner.getId());
-		}
-		jgen.writeStringField("firstName", owner.getFirstName());
-		jgen.writeStringField("lastName", owner.getLastName());
-		jgen.writeStringField("address", owner.getAddress());
-		jgen.writeStringField("city", owner.getCity());
-		jgen.writeStringField("telephone", owner.getTelephone());
-		jgen.writeEndObject(); // owner
-		jgen.writeEndObject(); // pet
+		
+		if (visit.getPetId() == null) {
+          jgen.writeNullField("petId");
+        } else {
+          jgen.writeNumberField("petId", visit.getPetId());
+        }
 		jgen.writeEndObject(); // visit
 	}
 

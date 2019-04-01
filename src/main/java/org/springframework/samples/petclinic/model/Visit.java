@@ -16,20 +16,16 @@
 package org.springframework.samples.petclinic.model;
 
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.rest.JacksonCustomVisitDeserializer;
 import org.springframework.samples.petclinic.rest.JacksonCustomVisitSerializer;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -61,12 +57,12 @@ public class Visit extends BaseEntity {
     @Column(name = "description")
     private String description;
 
+    
     /**
      * Holds value of property pet.
      */
-    @ManyToOne
     @JoinColumn(name = "pet_id")
-    private Pet pet;
+    private Integer petId;
 
 
     /**
@@ -114,21 +110,21 @@ public class Visit extends BaseEntity {
     }
 
     /**
-     * Getter for property pet.
+     * Getter for property petId.
      *
-     * @return Value of property pet.
+     * @return Value of property petId.
      */
-    public Pet getPet() {
-        return this.pet;
+    public Integer getPetId() {
+        return this.petId;
     }
 
     /**
-     * Setter for property pet.
+     * Setter for property petId.
      *
-     * @param pet New value of property pet.
+     * @param pet New value of property petId.
      */
-    public void setPet(Pet pet) {
-        this.pet = pet;
+    public void setPetId(Integer petId) {
+        this.petId = petId;
     }
 
 }

@@ -103,14 +103,14 @@ public class VisitRestControllerTests {
 
     	Visit visit = new Visit();
     	visit.setId(2);
-    	visit.setPet(pet);
+    	visit.setPetId(pet.getId());
     	visit.setDate(new Date());
     	visit.setDescription("rabies shot");
     	visits.add(visit);
 
     	visit = new Visit();
     	visit.setId(3);
-    	visit.setPet(pet);
+    	visit.setPetId(pet.getId());
     	visit.setDate(new Date());
     	visit.setDescription("neutered");
     	visits.add(visit);
@@ -181,7 +181,7 @@ public class VisitRestControllerTests {
     public void testCreateVisitError() throws Exception {
     	Visit newVisit = visits.get(0);
     	newVisit.setId(null);
-    	newVisit.setPet(null);
+    	newVisit.setPetId(null);
     	ObjectMapper mapper = new ObjectMapper();
     	String newVisitAsJSON = mapper.writeValueAsString(newVisit);
     	this.mockMvc.perform(post("/api/visits/")
@@ -214,7 +214,7 @@ public class VisitRestControllerTests {
     @WithMockUser(roles="OWNER_ADMIN")
     public void testUpdateVisitError() throws Exception {
     	Visit newVisit = visits.get(0);
-    	newVisit.setPet(null);
+    	newVisit.setPetId(null);
     	ObjectMapper mapper = new ObjectMapper();
     	String newVisitAsJSON = mapper.writeValueAsString(newVisit);
     	this.mockMvc.perform(put("/api/visits/2")

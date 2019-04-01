@@ -17,17 +17,14 @@
 package org.springframework.samples.petclinic.rest;
 
 import java.util.Collection;
-
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -73,9 +70,9 @@ public class PetRestController {
 	}
 
     @PreAuthorize( "hasRole(@roles.OWNER_ADMIN)" )
-	@RequestMapping(value = "/pettypes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Collection<PetType>> getPetTypes(){
-		return new ResponseEntity<Collection<PetType>>(this.clinicService.findPetTypes(), HttpStatus.OK);
+	@RequestMapping(value = "/pettype/{petTypeId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Collection<Pet>> getPetTypes(@PathVariable("petTypeId") int petTypeId){
+		return new ResponseEntity<Collection<Pet>>(this.clinicService.findPetsByPetType(petTypeId), HttpStatus.OK);
 	}
 
     @PreAuthorize( "hasRole(@roles.OWNER_ADMIN)" )

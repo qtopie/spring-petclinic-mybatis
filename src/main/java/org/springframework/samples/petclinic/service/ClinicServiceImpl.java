@@ -213,8 +213,8 @@ public class ClinicServiceImpl implements ClinicService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Collection<PetType> findPetTypes() throws DataAccessException {
-		return petMapper.findPetTypes();
+	public Collection<Pet> findPetsByPetType(int petTypeId) throws DataAccessException {
+		return petMapper.findByTypeId(petTypeId);
 	}
 
 	@Override

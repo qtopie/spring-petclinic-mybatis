@@ -70,7 +70,7 @@ public class Pet extends NamedEntity {
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "petId", fetch = FetchType.EAGER)
     private Set<Visit> visits;
 
 
@@ -117,7 +117,7 @@ public class Pet extends NamedEntity {
 
     public void addVisit(Visit visit) {
         getVisitsInternal().add(visit);
-        visit.setPet(this);
+        visit.setPetId(this.id);
     }
 
 }

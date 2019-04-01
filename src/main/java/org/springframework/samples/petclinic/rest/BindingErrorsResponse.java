@@ -18,7 +18,8 @@ package org.springframework.samples.petclinic.rest;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -33,6 +34,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 
 public class BindingErrorsResponse {
+  
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private List<BindingError> bindingErrors = new ArrayList<BindingError>();
 
@@ -66,8 +69,10 @@ public class BindingErrorsResponse {
 		try {
 			errorsAsJSON = mapper.writeValueAsString(bindingErrors);
 		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+			logger.info(e.getMessage());
 		}
+		
+		logger.debug(errorsAsJSON);
 		return errorsAsJSON;
 	}
 

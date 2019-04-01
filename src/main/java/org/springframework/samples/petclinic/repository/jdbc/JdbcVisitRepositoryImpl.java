@@ -79,7 +79,7 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
             .addValue("id", visit.getId())
             .addValue("visit_date", visit.getDate())
             .addValue("description", visit.getDescription())
-            .addValue("pet_id", visit.getPet().getId());
+            .addValue("pet_id", visit.getPetId());
     }
 
     @Override
@@ -96,7 +96,7 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
             params, new JdbcVisitRowMapper());
 
         for (Visit visit: visits) {
-            visit.setPet(pet);
+            visit.setPetId(pet.getId());
         }
 
         return visits;
@@ -175,7 +175,7 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
 					params,
 					BeanPropertyRowMapper.newInstance(Owner.class));
 			pet.setOwner(owner);
-			visit.setPet(pet);
+			visit.setPetId(pet.getId());
 			return visit;
 		}
 	}

@@ -9,17 +9,73 @@ Or write this function in service layer.
   void save(PetType petType) throws DataAccessException;
 ```
 
-## One to Many / Many to One
+## One to One / One to Many / Many to One / Many to Many
+
+* One to One/Many
+
+Use association: 
+
+  ```java
+  @Result(property = "owner",  column = "owner_id", javaType = Owner.class,
+    one=@One(select="org.springframework.samples.petclinic.mapper.OwnerMapper.findById"))
+  ```
 
 * One to Many
 
-Use collection: `@Result(property = "visits",  column = "pet_id",
-      many=@Many(fetchType=FetchType.EAGER, select="org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId"))`
-      
-* One to Many
+Use collection: 
+```java
+  @Result(property = "visits",  column = "id",
+      many=@Many(fetchType=FetchType.EAGER, select="org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId"))
+```
 
-Use association: `@Result(property = "owner",  column = "owner_id", javaType = Owner.class,
-      one=@One(select="org.springframework.samples.petclinic.mapper.OwnerMapper.findById"))`
+* Many to Many
+
+Use collection:
+```java
+  @Select("SELECT * FROM vets WHERE id = #{id}")
+  @Results({
+    @Result(property = "id", column = "id"),
+    @Result(property = "firstName",  column = "first_name"),
+    @Result(property = "lastName",  column = "last_name"),
+    @Result(property = "specialties", javaType=Set.class, column = "id",
+    many=@Many(fetchType=FetchType.EAGER, select="org.springframework.samples.petclinic.mapper.SpecialtyMapper.findByVetId")),
+  })
+  Vet findById(int id) throws DataAccessException;
+
+//-------------------------------------------------------------------------------------
+
+  @Select({"SELECT DISTINCT id, name FROM specialties WHERE id IN(",
+    "SELECT specialty_id FROM vet_specialties WHERE vet_id = #{vetId}",
+    ")"})
+  Set<Specialty> findByVetId(int vetId) throws DataAccessException;
+```
+
+Trick to handle child rows:
+
+```xml
+	<insert id="save" useGeneratedKeys="true" keyProperty="id"
+		parameterType="org.springframework.samples.petclinic.model.Vet">
+		INSERT INTO vets
+			(id,
+			first_name,
+			last_name)
+		VALUES(
+			#{id},
+			#{firstName},
+			#{lastName}
+		)
+		ON DUPLICATE KEY UPDATE
+			first_name = #{firstName},
+			last_name = #{lastName};
+		<foreach collection="specialties" item="item" index="index" separator=" ">
+			INSERT INTO specialties(id,name) VALUES(#{item.id}, #{item.name})
+				ON DUPLICATE KEY UPDATE name = #{item.name};
+			INSERT IGNORE INTO vet_specialties(vet_id, specialty_id) VALUES(#{id}, #{item.id});
+		</foreach>
+	</insert>
+```
+
+Here `allowMultiQueries=true` should be enabled in MySQL.
       
 Note that the column filed can add more than one parameters to match the method in `select` method      
 
@@ -42,4 +98,7 @@ e.g, `@Result(property = "birthDate",  column = "birth_date", javaType = Date.cl
 ```
 
 ## Reference
-* http://www.mybatis.org/mybatis-3/java-api.html
+* http://www.mybatis.org/mybatis-3/java-api.html  @Select({"SELECT DISTINCT id, name FROM specialties WHERE id IN(",
+    "SELECT specialty_id FROM vet_specialties WHERE vet_id = #{vetId}",
+    ")"})
+  Set<Specialty> findByVetId(int vetId) throws DataAccessException;

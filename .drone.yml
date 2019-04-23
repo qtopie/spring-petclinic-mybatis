@@ -15,7 +15,7 @@ steps:
   commands:
     # wait for db up
     - sleep 5
-    - ./gradlew -DdbHost=database test --info
+    - dbHost=database ./gradlew test --info
 
 services:
 - name: database

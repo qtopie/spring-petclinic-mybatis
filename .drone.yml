@@ -15,15 +15,15 @@ steps:
   commands:
     # wait for db up
     - sleep 5
-    - ./gradlew -DdbHost=database test
+    - ./gradlew -DdbHost=database test --info
 
 services:
 - name: database
   image: mysql:5.7
   environment:
+    # TODO: need to use other user
     MYSQL_ROOT_PASSWORD: petclinic
     MYSQL_DATABASE: petclinic
-    # TODO: need to use other user
-    MYSQL_USER: root
+    MYSQL_USER: tester
     MYSQL_PASSWORD: petclinic
 ...

@@ -54,6 +54,7 @@ public class JacksonCustomPetSerializer extends StdSerializer<Pet> {
 			jgen.writeNumberField("id", pet.getId());
 		}
 		jgen.writeStringField("name", pet.getName());
+		jgen.writeNumberField("ownerId", pet.getOwnerId());
 		jgen.writeStringField("birthDate", formatter.format(pet.getBirthDate()));
 
 		PetType petType = pet.getType();
@@ -62,15 +63,6 @@ public class JacksonCustomPetSerializer extends StdSerializer<Pet> {
 		jgen.writeStringField("name", petType.getName());
 		jgen.writeEndObject(); // type
 
-		Owner owner = pet.getOwner();
-		jgen.writeObjectFieldStart("owner");
-		jgen.writeNumberField("id", owner.getId());
-		jgen.writeStringField("firstName", owner.getFirstName());
-		jgen.writeStringField("lastName", owner.getLastName());
-		jgen.writeStringField("address", owner.getAddress());
-		jgen.writeStringField("city", owner.getCity());
-		jgen.writeStringField("telephone", owner.getTelephone());
-		jgen.writeEndObject(); // owner
 		// write visits array
 		jgen.writeArrayFieldStart("visits");
 		for (Visit visit : pet.getVisits()) {

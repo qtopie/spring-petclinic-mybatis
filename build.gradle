@@ -52,7 +52,6 @@ dependencies {
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
-	testCompile("ch.vorburger.mariaDB4j:mariaDB4j-springboot:2.4.0")
     testCompile('org.mockito:mockito-core')
     testCompile('org.hamcrest:hamcrest-all:' + hamcrestVersion)
     testCompile('com.jayway.jsonpath:json-path')

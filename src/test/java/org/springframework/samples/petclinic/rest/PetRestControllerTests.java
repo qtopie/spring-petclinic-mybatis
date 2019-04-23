@@ -96,7 +96,7 @@ public class PetRestControllerTests {
     	pet.setId(3);
     	pet.setName("Rosy");
     	pet.setBirthDate(new Date());
-    	pet.setOwner(owner);
+    	pet.setOwnerId(owner.getId());
     	pet.setType(petType);
     	pets.add(pet);
 
@@ -104,7 +104,7 @@ public class PetRestControllerTests {
     	pet.setId(4);
     	pet.setName("Jewel");
     	pet.setBirthDate(new Date());
-    	pet.setOwner(owner);
+    	pet.setOwnerId(owner.getId());
     	pet.setType(petType);
     	pets.add(pet);
     }

@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.mapper;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,7 +14,6 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 
@@ -31,8 +31,7 @@ public interface PetMapper {
     @Result(property = "birthDate",  column = "birth_date", javaType = Date.class),
     @Result(property = "type",  column = "type_id", javaType = PetType.class,
       one=@One(select="org.springframework.samples.petclinic.mapper.PetTypeMapper.findById")),
-    @Result(property = "owner",  column = "owner_id", javaType = Owner.class,
-      one=@One(select="org.springframework.samples.petclinic.mapper.OwnerMapper.findById")),
+    @Result(property = "ownerId",  column = "owner_id"),
     @Result(property = "visits", column = "id",
       many=@Many(fetchType=FetchType.EAGER, select="org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId")),
   })
@@ -44,8 +43,7 @@ public interface PetMapper {
     @Result(property = "birthDate",  column = "birth_date", javaType = Date.class),
     @Result(property = "type",  column = "type_id", javaType = PetType.class,
       one=@One(select="org.springframework.samples.petclinic.mapper.PetTypeMapper.findById")),
-    @Result(property = "owner",  column = "owner_id", javaType = Owner.class,
-      one=@One(select="org.springframework.samples.petclinic.mapper.OwnerMapper.findById")),
+    @Result(property = "ownerId",  column = "owner_id"),
     @Result(property = "visits",  column = "id",
       many=@Many(fetchType=FetchType.EAGER, select="org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId")),
   })
@@ -58,8 +56,7 @@ public interface PetMapper {
     @Result(property = "birthDate",  column = "birth_date", javaType = Date.class),
     @Result(property = "type",  column = "type_id", javaType = PetType.class,
       one=@One(select="org.springframework.samples.petclinic.mapper.PetTypeMapper.findById")),
-    @Result(property = "owner",  column = "owner_id", javaType = Owner.class,
-      one=@One(select="org.springframework.samples.petclinic.mapper.OwnerMapper.findById")),
+    @Result(property = "ownerId",  column = "owner_id"),
     @Result(property = "visits",  column = "id",
       many=@Many(fetchType=FetchType.EAGER, select="org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId")),
   })
@@ -70,11 +67,11 @@ public interface PetMapper {
   
   @Select("SELECT * FROM pets WHERE owner_id = #{id}")
   @Results({
+	@Result(property = "id",  column = "id"),
     @Result(property = "birthDate",  column = "birth_date", javaType = Date.class),
     @Result(property = "type",  column = "type_id", javaType = PetType.class,
       one=@One(select="org.springframework.samples.petclinic.mapper.PetTypeMapper.findById")),
-    @Result(property = "owner",  column = "owner_id", javaType = Owner.class,
-      one=@One(select="org.springframework.samples.petclinic.mapper.OwnerMapper.findById")),
+    @Result(property = "ownerId",  column = "owner_id"),
     @Result(property = "visits",  column = "id",
       many=@Many(fetchType=FetchType.EAGER, select="org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId")), 
   })

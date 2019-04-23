@@ -97,7 +97,7 @@ public class VisitRestControllerTests {
     	pet.setId(8);
     	pet.setName("Rosy");
     	pet.setBirthDate(new Date());
-    	pet.setOwner(owner);
+    	pet.setOwnerId(owner.getId());
     	pet.setType(petType);
 
 

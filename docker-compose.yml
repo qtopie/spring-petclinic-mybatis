@@ -5,7 +5,7 @@ mysql:
   environment:
     - MYSQL_ROOT_PASSWORD=petclinic
     - MYSQL_DATABASE=petclinic
-    - MYSQL_USER=pc
+    - MYSQL_USER=tester
     - MYSQL_PASSWORD=petclinic
   volumes:
     - "./conf.d:/etc/mysql/conf.d:ro"

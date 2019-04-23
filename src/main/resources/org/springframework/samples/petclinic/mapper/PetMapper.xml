@@ -18,12 +18,12 @@
 			#{name},
 			#{birthDate},
 			#{type.id},
-			#{owner.id}
+			#{ownerId}
 		)
 		ON DUPLICATE KEY UPDATE
 			name = #{name},
 			birth_date = #{birthDate},
 			type_id = #{type.id},
-			owner_id = #{owner.id};
+			owner_id = #{ownerId};
 	</insert>
 </mapper>

@@ -174,7 +174,7 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
 					"SELECT id, first_name, last_name, address, city, telephone FROM owners WHERE id= :owner_id",
 					params,
 					BeanPropertyRowMapper.newInstance(Owner.class));
-			pet.setOwner(owner);
+			pet.setOwnerId(owner.getId());
 			visit.setPetId(pet.getId());
 			return visit;
 		}

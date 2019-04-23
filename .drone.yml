@@ -7,11 +7,22 @@ platform:
   arch: amd64
 
 steps:
+# TODO: seprate UT with integration test
 - name: test
   image: java:openjdk-8
   environment:
     GRADLE_USER_HOME: ~/.gradle
   commands:
+    # wait for db up
+    - sleep 15
     - ./gradlew test
-    
+
+services:
+- name: database
+  image: mysql:5.7
+  environment:
+    MYSQL_DATABASE: petclinic
+    # TODO: need to use other user
+    MYSQL_USER: root
+    MYSQL_PASSWORD: petclinic
 ...

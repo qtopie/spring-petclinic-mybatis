@@ -77,7 +77,7 @@ public class JacksonCustomOwnerSerializer extends StdSerializer<Owner> {
 			jgen.writeStringField("name", petType.getName());
 			jgen.writeEndObject(); // type
 
-			jgen.writeNumberField("owner", pet.getOwner().getId());
+			jgen.writeNumberField("ownerId", pet.getOwnerId());
 			// write visits array
 			jgen.writeArrayFieldStart("visits");
 			for (Visit visit : pet.getVisits()) {

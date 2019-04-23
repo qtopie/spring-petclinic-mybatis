@@ -124,7 +124,7 @@ public class JdbcPetRepositoryImpl implements PetRepository {
             .addValue("name", pet.getName())
             .addValue("birth_date", pet.getBirthDate())
             .addValue("type_id", pet.getType().getId())
-            .addValue("owner_id", pet.getOwner().getId());
+            .addValue("owner_id", pet.getOwnerId());
     }
     
 	@Override
@@ -145,7 +145,7 @@ public class JdbcPetRepositoryImpl implements PetRepository {
 				BeanPropertyRowMapper.newInstance(Owner.class));
 		for (JdbcPet jdbcPet : jdbcPets) {
 			jdbcPet.setType(EntityUtils.getById(petTypes, PetType.class, jdbcPet.getTypeId()));
-			jdbcPet.setOwner(EntityUtils.getById(owners, Owner.class, jdbcPet.getOwnerId()));
+			jdbcPet.setOwnerId(jdbcPet.getOwnerId());
 			// TODO add visits
 			pets.add(jdbcPet);
 		}

@@ -21,7 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * <p> Integration test using the jdbc profile.
+ * <p> Integration test using the mysql profile.
  *
  * @author Thomas Risberg
  * @author Michael Isvy

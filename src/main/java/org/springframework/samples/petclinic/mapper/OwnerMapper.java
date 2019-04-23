@@ -20,6 +20,8 @@ public interface OwnerMapper {
   
   @Select("SELECT * FROM owners WHERE id = #{id}")
   @Results({
+	// need to add this or the id field will be blank (duplicated in mapping to ownerId for pet
+	@Result(property = "id",  column = "id"),
     @Result(property = "firstName",  column = "first_name"),
     @Result(property = "lastName",  column = "last_name"),
     @Result(property = "pets", column = "id", javaType=Set.class, many=@Many(fetchType=FetchType.EAGER,
@@ -31,6 +33,7 @@ public interface OwnerMapper {
   
   @Select("SELECT * FROM owners")
   @Results({
+	@Result(property = "id",  column = "id"),
     @Result(property = "firstName",  column = "first_name"),
     @Result(property = "lastName",  column = "last_name"),
     @Result(property = "pets", column = "id", many=@Many(fetchType=FetchType.EAGER,

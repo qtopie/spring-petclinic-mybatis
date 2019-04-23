@@ -66,7 +66,7 @@ public class Owner extends Person {
     @Digits(fraction = 0, integer = 11)
     private String telephone;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ownerId", fetch = FetchType.EAGER)
     private Set<Pet> pets;
 
 
@@ -113,7 +113,7 @@ public class Owner extends Person {
 
     public void addPet(Pet pet) {
         getPetsInternal().add(pet);
-        pet.setOwner(this);
+        pet.setOwnerId(this.id);
     }
 
     /**

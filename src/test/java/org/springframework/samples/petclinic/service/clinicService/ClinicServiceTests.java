@@ -29,8 +29,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles("jdbc, spring.profiles.active=mysql,spring-data-jpahsqldb")
-public class ClinicServiceJdbcTests extends AbstractClinicServiceTests {
+@ActiveProfiles("jdbc, mysql")
+public class ClinicServiceTests extends AbstractClinicServiceTests {
 
 
 }

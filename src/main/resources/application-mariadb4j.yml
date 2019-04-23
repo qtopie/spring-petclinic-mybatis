@@ -1,0 +1,13 @@
+
+spring:
+  datasource:
+  	initialize: true
+  	schema: classpath*:db/mysql/initDB.sql
+  	data: classpath*:db/mysql/populateDB.sql
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:${mariaDB4j.port}/test
+    username: root
+    password:
+
+mariaDB4j:
+  port: 3307

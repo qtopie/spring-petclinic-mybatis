@@ -52,6 +52,7 @@ dependencies {
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
+	testCompile("ch.vorburger.mariaDB4j:mariaDB4j-springboot:2.4.0")
     testCompile('org.mockito:mockito-core')
     testCompile('org.hamcrest:hamcrest-all:' + hamcrestVersion)
     testCompile('com.jayway.jsonpath:json-path')
@@ -66,5 +67,10 @@ eclipse {
         downloadJavadoc = true
         downloadSources = true
     }
+}
+
+// enable remote debug
+bootRun {
+//  jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5050"]
 }
 

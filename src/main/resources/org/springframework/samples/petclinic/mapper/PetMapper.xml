@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="org.springframework.samples.petclinic.mapper.PetMapper">
+
+	<insert id="save" useGeneratedKeys="true" keyProperty="id"
+		parameterType="org.springframework.samples.petclinic.model.Pet">
+		INSERT INTO pets
+			(id,
+			name,
+			birth_date,
+			type_id,
+			owner_id)
+		VALUES(
+			#{id},
+			#{name},
+			#{birthDate},
+			#{type.id},
+			#{owner.id}
+		)
+		ON DUPLICATE KEY UPDATE
+			name = #{name},
+			birth_date = #{birthDate},
+			type_id = #{type.id},
+			owner_id = #{owner.id};
+	</insert>
+</mapper>

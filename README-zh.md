@@ -33,3 +33,6 @@ cd spring-petclinic-rest
 npm install
 ng serve
 ``
+
+## 参考
+* https://github.com/spring-projects/spring-petclinic

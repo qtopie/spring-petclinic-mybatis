@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.mapper;
 
 import java.util.Collection;
+import java.util.Set;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
@@ -20,8 +22,8 @@ public interface OwnerMapper {
   @Results({
     @Result(property = "firstName",  column = "first_name"),
     @Result(property = "lastName",  column = "last_name"),
-    @Result(property = "pets", column = "owner_id", many=@Many(fetchType=FetchType.EAGER,
-      select="org.springframework.samples.petclinic.mapper.PetMapper.findById")),
+    @Result(property = "pets", column = "id", javaType=Set.class, many=@Many(fetchType=FetchType.EAGER,
+      select="org.springframework.samples.petclinic.mapper.PetMapper.findByOwnerId")),
   })
   Owner findById(int id) throws DataAccessException;
   
@@ -31,6 +33,8 @@ public interface OwnerMapper {
   @Results({
     @Result(property = "firstName",  column = "first_name"),
     @Result(property = "lastName",  column = "last_name"),
+    @Result(property = "pets", column = "id", many=@Many(fetchType=FetchType.EAGER,
+    select="org.springframework.samples.petclinic.mapper.PetMapper.findByOwnerId")),
   })
   Collection<Owner> findAll() throws DataAccessException;
   

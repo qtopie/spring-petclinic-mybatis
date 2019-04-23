@@ -2,6 +2,8 @@ package org.springframework.samples.petclinic.mapper;
 
 import java.util.Collection;
 import java.util.Set;
+
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
@@ -35,6 +37,6 @@ public interface VetMapper {
 
   void save(Vet vet) throws DataAccessException;
   
-  @Select("DELETE FROM vets WHERE id = #{id}")
+  @Delete("DELETE FROM vets WHERE id = #{id}")
   void delete(Vet vet) throws DataAccessException;
 }

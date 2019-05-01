@@ -10,6 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("jdbc, mysql")
-public class UserServiceJdbcTests extends AbstractUserServiceTests {
+public class UserServiceTests extends AbstractUserServiceTests {
 
 }

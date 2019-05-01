@@ -42,9 +42,7 @@ dependencies {
     compile('io.springfox:springfox-swagger2:' + springfoxSwaggerVersion)
     compile('io.springfox:springfox-swagger-ui:' + springfoxSwaggerVersion)
 
-    runtime('org.hsqldb:hsqldb')
     runtime('mysql:mysql-connector-java')
-    runtime('org.postgresql:postgresql')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')

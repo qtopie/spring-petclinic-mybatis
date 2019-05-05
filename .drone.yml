@@ -16,8 +16,8 @@ steps:
     # wait for db up
     - sleep 5
     - dbHost=database ./gradlew test --info
-    
-- code-analysis:
+
+- name: sonar-analysis
   image: gradle:jdk8
   commands:
     - ./gradlew sonarqube \

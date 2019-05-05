@@ -16,6 +16,15 @@ steps:
     # wait for db up
     - sleep 5
     - dbHost=database ./gradlew test --info
+    
+- code-analysis:
+  image: gradle:jdk8
+  commands:
+    - ./gradlew sonarqube \
+        -Dsonar.projectKey=artificerpi_spring-petclinic-mybatis \
+        -Dsonar.organization=artificerpi-github \
+        -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=${SONARCLOUD_TOKEN}
 
 services:
 - name: database

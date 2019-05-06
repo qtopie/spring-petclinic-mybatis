@@ -25,8 +25,7 @@ steps:
     - "./gradlew -x test sonarqube
         -Dsonar.projectKey=artificerpi_spring-petclinic-mybatis
         -Dsonar.organization=artificerpi-github
-        -Dsonar.host.url=https://sonarcloud.io
-        -Dsonar.login=${SONARCLOUD_TOKEN}"
+        -Dsonar.host.url=https://sonarcloud.io"
 
 services:
 - name: database

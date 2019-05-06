@@ -23,7 +23,7 @@ steps:
   environment:
     GRADLE_USER_HOME: ~/.gradle
     SONARCLOUD_TOKEN:
-      from_secret: [sonarcloud_token]
+      from_secret: sonarcloud_token
   commands:
     - echo $FOO_ENV $hello
     - "./gradlew -x test sonarqube

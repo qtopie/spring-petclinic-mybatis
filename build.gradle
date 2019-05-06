@@ -73,7 +73,5 @@ sonarqube {
     properties {
         property "sonar.projectName", "spring-petclinic-mybatis"
         property "sonar.projectKey", "artificerpi_spring-petclinic-mybatis"
-        property "sonar.login", "${SONARCLOUD_TOKEN}"
     }
 }
-

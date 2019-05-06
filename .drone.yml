@@ -23,7 +23,10 @@ steps:
     GRADLE_USER_HOME: ~/.gradle
     SONARCLOUD_TOKEN:
       from_secret: sonarcloud_token
+    FOO_ENV:
+      from_secret: hello
   commands:
+    - echo $FOO_ENV
     - "./gradlew -x test sonarqube
         -Dsonar.projectKey=artificerpi_spring-petclinic-mybatis
         -Dsonar.organization=artificerpi-github

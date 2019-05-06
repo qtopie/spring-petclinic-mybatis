@@ -22,11 +22,11 @@ steps:
   environment:
     GRADLE_USER_HOME: ~/.gradle
   commands:
-    - ./gradlew sonarqube \
-        -Dsonar.projectKey=artificerpi_spring-petclinic-mybatis \
-        -Dsonar.organization=artificerpi-github \
-        -Dsonar.host.url=https://sonarcloud.io \
-        -Dsonar.login=${SONARCLOUD_TOKEN}
+    - "./gradlew -x test sonarqube
+        -Dsonar.projectKey=artificerpi_spring-petclinic-mybatis
+        -Dsonar.organization=artificerpi-github
+        -Dsonar.host.url=https://sonarcloud.io
+        -Dsonar.login=${SONARCLOUD_TOKEN}"
 
 services:
 - name: database

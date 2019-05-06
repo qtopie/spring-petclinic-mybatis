@@ -18,7 +18,9 @@ steps:
     - dbHost=database ./gradlew test --info
 
 - name: sonar-analysis
-  image: gradle:jdk8
+  image: java:openjdk-8
+  environment:
+    GRADLE_USER_HOME: ~/.gradle
   commands:
     - ./gradlew sonarqube \
         -Dsonar.projectKey=artificerpi_spring-petclinic-mybatis \

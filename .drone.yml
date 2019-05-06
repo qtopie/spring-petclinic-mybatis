@@ -19,14 +19,13 @@ steps:
 
 - name: sonar-analysis
   image: java:openjdk-8
+  secrets: [hello]
   environment:
     GRADLE_USER_HOME: ~/.gradle
     SONARCLOUD_TOKEN:
-      from_secret: sonarcloud_token
-    FOO_ENV:
-      from_secret: hello
+      from_secret: [sonarcloud_token]
   commands:
-    - echo $FOO_ENV
+    - echo $FOO_ENV $hello
     - "./gradlew -x test sonarqube
         -Dsonar.projectKey=artificerpi_spring-petclinic-mybatis
         -Dsonar.organization=artificerpi-github

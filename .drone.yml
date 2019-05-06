@@ -21,6 +21,8 @@ steps:
   image: java:openjdk-8
   environment:
     GRADLE_USER_HOME: ~/.gradle
+    SONARCLOUD_TOKEN:
+      from_secret: sonarcloud_token
   commands:
     - "./gradlew -x test sonarqube
         -Dsonar.projectKey=artificerpi_spring-petclinic-mybatis

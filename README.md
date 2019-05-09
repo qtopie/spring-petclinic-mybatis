@@ -1,6 +1,11 @@
 # REST version of Spring PetClinic Sample Application (spring-framework-petclinic extend )
  [![Build Status](https://cloud.drone.io/api/badges/artificerpi/spring-petclinic-mybatis/status.svg)](https://cloud.drone.io/artificerpi/spring-petclinic-mybatis)
 
+  [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=artificerpi_spring-petclinic-mybatis&metric=alert_status)](https://sonarcloud.io/dashboard?id=artificerpi_spring-petclinic-mybatis) 
+ [![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=artificerpi_spring-petclinic-mybatis&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=artificerpi_spring-petclinic-mybatis)
+ [![SonarCloud Bugs](https://sonarcloud.io/api/project_badges/measure?project=artificerpi_spring-petclinic-mybatis&metric=bugs)](https://sonarcloud.io/component_measures/metric/reliability_rating/list?id=artificerpi_spring-petclinic-mybatis)
+ [![SonarCloud Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=artificerpi_spring-petclinic-mybatis&metric=vulnerabilities)](https://sonarcloud.io/component_measures/metric/security_rating/list?id=artificerpi_spring-petclinic-mybatis)
+
 [中文](./README-zh.md)
 
 This backend version of the Spring Petclinic application only provides a REST API. **There is no UI**.

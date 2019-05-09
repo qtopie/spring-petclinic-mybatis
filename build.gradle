@@ -10,7 +10,8 @@ buildscript {
 plugins {
   id "org.sonarqube" version "2.6.2"
   id 'jacoco'
-//  id 'checkstyle'
+  id 'checkstyle'
+  id 'findbugs'
 }
 
 apply plugin: 'java'

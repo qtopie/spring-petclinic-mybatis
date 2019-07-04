@@ -28,6 +28,13 @@ repositories {
     jcenter()
 }
 
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
+
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-security')
@@ -52,6 +59,8 @@ dependencies {
     testCompile('org.mockito:mockito-core')
     testCompile('org.hamcrest:hamcrest-all:' + hamcrestVersion)
     testCompile('com.jayway.jsonpath:json-path')
+    
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 wrapper {

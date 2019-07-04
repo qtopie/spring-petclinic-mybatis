@@ -36,7 +36,7 @@ public class RootRestController {
 
 	@RequestMapping(value = "/")
 	public void redirectToSwagger(HttpServletResponse response) throws IOException {
-		response.sendRedirect("/petclinic/swagger-ui.html");
+		response.sendRedirect("/swagger-ui.html");
 	}
 
 }

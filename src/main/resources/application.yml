@@ -16,16 +16,23 @@
 # When using Spring Data JPA, use: spring-data-jpa
 # ------------------------------------------------
 
-spring.profiles.active=mysql,spring-data-jpa
+spring:
+  profiles:
+    active: mysql,spring-data-jpa
+  messages:
+    basename: messages/messages
 
 # ------------------------------------------------
 
-server.port=9966
-server.context-path=/petclinic/
+server:
+  port: 8080
+#  context-path=/petclinic/
 
-spring.messages.basename=messages/messages
 
-logging.level.org.springframework=INFO
+#logging:
+#  level:
+#    org:
+#      springframework=INFO
 #logging.level.org.springframework=DEBUG
 
 #logging.level.org.hibernate.SQL=DEBUG
@@ -33,7 +40,12 @@ logging.level.org.springframework=INFO
 
 # enable the desired authentication type
 # by default the authentication is disabled
-security.ignored=/**
-basic.authentication.enabled=false
+security:
+  ignored: /**
+  
+basic:
+  authentication:
+    enabled: false
 
-mybatis.mapper-locations=classpath*:org/springframework/samples/petclinic/mapper/*.xml
+mybatis:
+  mapper-locations: classpath*:org/springframework/samples/petclinic/mapper/*.xml

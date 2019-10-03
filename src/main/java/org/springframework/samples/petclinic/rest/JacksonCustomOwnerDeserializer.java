@@ -33,6 +33,11 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 public class JacksonCustomOwnerDeserializer extends StdDeserializer<Owner> {
 	
+	/**
+	 * Generated serial version id
+	 */
+	private static final long serialVersionUID = -5506207980181221405L;
+
 	public JacksonCustomOwnerDeserializer(){
 		this(null);
 	}

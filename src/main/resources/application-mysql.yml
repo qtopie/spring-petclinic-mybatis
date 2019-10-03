@@ -10,6 +10,5 @@ spring:
     url: jdbc:mysql://${dbHost:localhost}:3306/petclinic?useUnicode=true&allowMultiQueries=true
     username: root
     password: petclinic
-    driver-class-name: com.mysql.jdbc.Driver
     #----------------------------------------------------------------
     # MySQL config end 

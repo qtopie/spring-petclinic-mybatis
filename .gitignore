@@ -5,8 +5,8 @@ target/*
 .idea
 *.iml
 .gradle
+gradle/
 bin/
 build/
 /target
-
 generated/

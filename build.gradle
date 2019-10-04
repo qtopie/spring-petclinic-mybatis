@@ -7,9 +7,8 @@ plugins {
 //  id 'findbugs'
   id "org.springframework.boot" version "2.1.8.RELEASE"
   id "io.spring.dependency-management" version "1.0.8.RELEASE"
+  id "org.asciidoctor.convert" version "1.5.9.2"
 }
-
-sourceCompatibility = 1.8
 
 repositories {
     mavenLocal()
@@ -17,11 +16,19 @@ repositories {
     jcenter()
 }
 
+ext {
+    snippetsDir = file("$buildDir/generated-snippets")
+    javadocJsonDir = file("$buildDir/generated-javadoc-json")
+}
+
+sourceCompatibility = 1.8
+
 configurations {
 	developmentOnly
 	runtimeClasspath {
 		extendsFrom developmentOnly
 	}
+	jsondoclet
 }
 
 dependencies {
@@ -48,16 +55,101 @@ dependencies {
     testCompile('org.mockito:mockito-core')
     testCompile('org.hamcrest:hamcrest-all:' + hamcrestVersion)
     testCompile('com.jayway.jsonpath:json-path')
-    testCompile 'capital.scalable:spring-auto-restdocs-core:2.0.6'
+    
+    testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testCompile "capital.scalable:spring-auto-restdocs-core:$springAutoRestDocsVersion"
+    jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
     
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = "UTF-8"
+}
+
+
+task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
+    source = sourceSets.main.allJava
+    classpath = sourceSets.main.compileClasspath
+    destinationDir = javadocJsonDir
+    options.docletpath = configurations.jsondoclet.files.asType(List)
+    options.doclet = "capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet"
+    options.memberLevel = JavadocMemberLevel.PACKAGE
+}
+
+test {
+    systemProperty "org.springframework.restdocs.outputDir", snippetsDir
+    systemProperty "org.springframework.restdocs.javadocJsonDir", javadocJsonDir
+
+    dependsOn jsonDoclet
+}
+
+task asciidocTemplate(dependsOn: test) {
+	def pattern = /(\w+)-rest-controller-tests/
+	def snippetDirList = []
+	def snippetNameList = []
+	
+	doFirst {
+		snippetsDir.eachDirMatch(~ pattern) {
+			snippetDirList << it
+			snippetNameList << (it.name=~ pattern)[0][1]
+		}
+	}
+	
+	doLast {
+		copy {
+		    from("src/docs/asciidoc")
+		    into "$buildDir/docs/asciidoc"
+      		include "*.adoc"
+      	
+     		eachFile {
+				if (it.name == "index.adoc") { expand(snippetNameList: snippetNameList) }
+	  		}
+		}
+		
+		// creating and link snippets
+		snippetNameList.eachWithIndex { snippetName, i ->
+			def snippetMethodNameList = []
+			snippetDirList[i].eachDir { snippetMethodNameList << it.name }
+			
+			copy {
+	    		from ("src/docs/asciidoc/snippet.adoc.template")
+	    		into "$buildDir/docs/asciidoc"
+    			rename { file -> "${snippetName}.adoc" }
+    			expand(snippetClassName: snippetDirList[i].name, snippetMethodNameList: snippetMethodNameList.sort())
+			}
+		}
+	}	
+    
+}
+
+asciidoctor {
+    sourceDir = file("$buildDir/docs/asciidoc")
+    outputDir = file("$buildDir/generated-docs")
+    options backend: "html", doctype: "book"
+    attributes "source-highlighter": "highlightjs", "snippets": snippetsDir
+
+    dependsOn test
+    dependsOn asciidocTemplate
+}
+
+asciidoctor.doLast {
+    copy {
+    	from file("$buildDir/generated-docs/html5")
+    	into file("$buildDir/resources/main/public")
+    	include "index.html"
+    }
+}
+
+bootJar {
+    dependsOn asciidoctor
 }
 
 
 eclipse {
     classpath {
-//        downloadJavadoc = true
-  //      downloadSources = true
+		downloadJavadoc = true
+		downloadSources = true
 
         defaultOutputDir = file('build/default')
         file.whenMerged {

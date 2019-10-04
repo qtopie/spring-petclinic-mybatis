@@ -36,6 +36,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.rest.support.MockMvcBase;
 import org.springframework.samples.petclinic.service.clinicService.ApplicationTestConfig;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -57,23 +58,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=ApplicationTestConfig.class)
 @WebAppConfiguration
-public class OwnerRestControllerTests {
+public class OwnerRestControllerTests extends MockMvcBase {
 
-    @Autowired
-    private OwnerRestController ownerRestController;
+//    @Autowired
+//    private OwnerRestController ownerRestController;
 
     @MockBean
     private ClinicService clinicService;
 
-    private MockMvc mockMvc;
+//    private MockMvc mockMvc;
 
     private List<Owner> owners;
 
     @Before
     public void initOwners(){
-    	this.mockMvc = MockMvcBuilders.standaloneSetup(ownerRestController)
-    			.setControllerAdvice(new ExceptionControllerAdvice())
-    			.build();
+//    	this.mockMvc = MockMvcBuilders.standaloneSetup(ownerRestController)
+//    			.setControllerAdvice(new ExceptionControllerAdvice())
+//    			.build();
     	owners = new ArrayList<Owner>();
 
     	Owner owner = new Owner();

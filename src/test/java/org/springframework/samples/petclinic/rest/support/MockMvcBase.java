@@ -41,6 +41,9 @@ import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
 import org.springframework.restdocs.snippet.Snippet;
+import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.rest.JacksonCustomPetDeserializer;
+import org.springframework.samples.petclinic.rest.JacksonCustomPetSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
@@ -48,6 +51,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import capital.scalable.restdocs.jackson.TypeMapping;
 
 /**

@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.mapper;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
-
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;

@@ -16,10 +16,9 @@
 package org.springframework.samples.petclinic.service.clinicService;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import java.util.Collection;
 import java.util.Date;
-
+import javax.transaction.Transactional;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
@@ -33,7 +32,6 @@ import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p> Base class for {@link ClinicService} integration tests. </p> <p> Subclasses should specify Spring context

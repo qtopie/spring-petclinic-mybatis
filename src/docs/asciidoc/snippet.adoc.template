@@ -7,7 +7,8 @@
 <% snippetMethodNameList.each { methodName -> %>
 [[${methodName}]]
 === ${methodName.replaceAll("-|test", " ")}
-`GET /items/{id}`
+
+include::{snippets}/${snippetClassName}/${methodName}/auto-method-path.adoc[]
 
 ==== Authorization
 

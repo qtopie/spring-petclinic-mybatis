@@ -17,9 +17,7 @@
 package org.springframework.samples.petclinic.rest;
 
 import java.io.IOException;
-
 import org.springframework.samples.petclinic.model.Owner;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;

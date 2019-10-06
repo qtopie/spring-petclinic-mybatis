@@ -29,6 +29,7 @@ import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +51,7 @@ public class PetRestController {
 	private ClinicService clinicService;
 
     @PreAuthorize( "hasRole(@roles.OWNER_ADMIN)" )
-	@RequestMapping(value = "/{petId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@GetMapping(value = "/{petId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Pet> getPet(@PathVariable("petId") int petId){
 		Pet pet = this.clinicService.findPetById(petId);
 		if(pet == null){

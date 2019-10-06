@@ -19,11 +19,9 @@ package org.springframework.samples.petclinic.rest;
 import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Visit;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;

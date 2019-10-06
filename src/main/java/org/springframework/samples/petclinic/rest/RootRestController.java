@@ -18,6 +18,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class RootRestController {
 
-  @RequestMapping(value = "/")
+  @GetMapping(value = "/")
   public void redirectToSwagger(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     response.sendRedirect(request.getContextPath() + "/swagger-ui.html");

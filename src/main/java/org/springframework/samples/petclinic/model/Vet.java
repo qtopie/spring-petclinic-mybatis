@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -39,7 +38,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author Sam Brannen
  * @author Arjen Poutsma
  */
-@Entity
 @Table(name = "vets")
 public class Vet extends Person {
 

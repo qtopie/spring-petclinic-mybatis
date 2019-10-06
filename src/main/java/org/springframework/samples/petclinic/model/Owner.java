@@ -20,22 +20,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
-import org.springframework.samples.petclinic.rest.JacksonCustomOwnerDeserializer;
-import org.springframework.samples.petclinic.rest.JacksonCustomOwnerSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Simple JavaBean domain object representing an owner.
@@ -45,16 +36,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * @author Sam Brannen
  * @author Michael Isvy
  */
-@Entity
-@Table(name = "owners")
 //@JsonSerialize(using = JacksonCustomOwnerSerializer.class)
 //@JsonDeserialize(using = JacksonCustomOwnerDeserializer.class)
 public class Owner extends Person {
-    @Column(name = "address")
     @NotEmpty
     private String address;
 
-    @Column(name = "city")
     @NotEmpty
     private String city;
 
@@ -63,7 +50,6 @@ public class Owner extends Person {
     @Digits(fraction = 0, integer = 11)
     private String telephone;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ownerId", fetch = FetchType.EAGER)
     private Set<Pet> pets;
 
 

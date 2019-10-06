@@ -17,7 +17,6 @@ package org.springframework.samples.petclinic.model;
 
 import java.util.Date;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,7 +34,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  *
  * @author Ken Krebs
  */
-@Entity
 @Table(name = "visits")
 @JsonSerialize(using = JacksonCustomVisitSerializer.class)
 @JsonDeserialize(using = JacksonCustomVisitDeserializer.class)

@@ -47,7 +47,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * @author Juergen Hoeller
  * @author Sam Brannen
  */
-@Entity
 @Table(name = "pets")
 @JsonSerialize(using = JacksonCustomPetSerializer.class)
 @JsonDeserialize(using = JacksonCustomPetDeserializer.class)

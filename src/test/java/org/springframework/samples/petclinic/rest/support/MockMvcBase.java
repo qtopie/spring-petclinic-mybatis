@@ -36,14 +36,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
 import org.springframework.restdocs.snippet.Snippet;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.rest.JacksonCustomPetDeserializer;
-import org.springframework.samples.petclinic.rest.JacksonCustomPetSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
@@ -51,7 +49,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import capital.scalable.restdocs.jackson.TypeMapping;
 
 /**
@@ -72,6 +69,9 @@ public abstract class MockMvcBase {
   @Autowired
   @Qualifier("requestContextFilter")
   private Filter springSecurityFilterChain;
+
+//  @Value("${server.port:8080}")
+//  private Integer serverPort = 8080;
 
   protected MockMvc mockMvc;
 
@@ -99,6 +99,7 @@ public abstract class MockMvcBase {
         prettyPrint());
   }
 
+
   protected RequestPostProcessor userToken() {
     return request -> {
       // If the tests requires setup logic for users, you can place it here.
@@ -109,7 +110,7 @@ public abstract class MockMvcBase {
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
-      request.addHeader("Authorization", "Bearer " + accessToken);
+      request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
       return documentAuthorization(request, "User access token required.");
     };
   }

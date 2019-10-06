@@ -5,7 +5,7 @@ plugins {
   id 'eclipse'
 //  id 'checkstyle'
 //  id 'findbugs'
-  id "org.springframework.boot" version "2.1.8.RELEASE"
+  id "org.springframework.boot" version "2.1.9.RELEASE"
   id "io.spring.dependency-management" version "1.0.8.RELEASE"
   id "org.asciidoctor.convert" version "1.5.9.2"
 }
@@ -39,7 +39,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-cache')
 
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2")
+    compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0")
 
     compile('com.fasterxml.jackson.core:jackson-core')
     compile('com.fasterxml.jackson.core:jackson-databind')
@@ -90,6 +90,8 @@ task asciidocTemplate(dependsOn: test) {
 	def snippetNameList = []
 	
 	doFirst {
+		// make gradle task not fail
+		snippetsDir.mkdirs()
 		snippetsDir.eachDirMatch(~ pattern) {
 			snippetDirList << it
 			snippetNameList << (it.name=~ pattern)[0][1]

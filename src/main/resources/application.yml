@@ -25,8 +25,9 @@ spring:
 # ------------------------------------------------
 
 server:
-  port: 8080
-  context-path: /petclinic/
+  port: 9966
+  servlet:
+    contextPath: /petclinic
 
 
 #logging:
@@ -38,14 +39,12 @@ server:
 #logging.level.org.hibernate.SQL=DEBUG
 #logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
 
-# enable the desired authentication type
-# by default the authentication is disabled
-security:
-  ignored: /**
   
 basic:
   authentication:
-    enabled: false
+  enabled: true
+    
+
 
 mybatis:
-  mapper-locations: classpath*:org/springframework/samples/petclinic/mapper/*.xml
+  mapper-locations: classpath*:mapper/*.xml

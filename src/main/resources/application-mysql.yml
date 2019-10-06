@@ -1,13 +1,11 @@
 # uncomment for init database (first start)
 spring:
   datasource:
-    initialize: true
-    schema: classpath*:db/mysql/initDB.sql
-    data: classpath*:db/mysql/populateDB.sql
+    initialization-mode: always
     # MySQL config start
     #----------------------------------------------------------------
     # allow multi queries or use java 8 default method to execute multiple sql
-    url: jdbc:mysql://${dbHost:localhost}:3306/petclinic?useUnicode=true&allowMultiQueries=true
+    url: jdbc:mysql://${dbHost:127.0.0.1}:3306/petclinic?useUnicode=true&allowMultiQueries=true
     username: root
     password: petclinic
     #----------------------------------------------------------------

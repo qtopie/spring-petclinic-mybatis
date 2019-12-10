@@ -46,9 +46,9 @@ npm uninstall -g angular-cli @angular/cli
 npm cache clean
 npm install -g @angular/cli@latest
 
-git clone https://github.com/spring-petclinic/spring-petclinic-rest.git
+git clone https://github.com/spring-petclinic/spring-petclinic-angular.git
 
-cd spring-petclinic-rest
+cd spring-petclinic-angular
 npm install
 ng serve
 ```

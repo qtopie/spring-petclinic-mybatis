@@ -7,7 +7,7 @@ plugins {
 //  id 'findbugs'
   id "org.springframework.boot" version "2.1.9.RELEASE"
   id "io.spring.dependency-management" version "1.0.8.RELEASE"
-  id "org.asciidoctor.convert" version "1.5.9.2"
+  id "io.github.artificerpi.spring-auto-asciidoc" version "0.6.2"
 }
 
 repositories {
@@ -15,20 +15,18 @@ repositories {
     mavenCentral()
     jcenter()
 }
-
 ext {
-    snippetsDir = file("$buildDir/generated-snippets")
-    javadocJsonDir = file("$buildDir/generated-javadoc-json")
+   jdkVersion = 1.8
 }
 
-sourceCompatibility = 1.8
+sourceCompatibility = jdkVersion
+targetCompatibility = jdkVersion
 
 configurations {
-	developmentOnly
-	runtimeClasspath {
-		extendsFrom developmentOnly
-	}
-	jsondoclet
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
 }
 
 dependencies {
@@ -55,101 +53,27 @@ dependencies {
     testCompile('com.jayway.jsonpath:json-path')
     
     testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    testCompile "capital.scalable:spring-auto-restdocs-core:$springAutoRestDocsVersion"
-    jsondoclet "capital.scalable:spring-auto-restdocs-json-doclet:$springAutoRestDocsVersion"
     
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
-tasks.withType(JavaCompile) {
-	options.encoding = "UTF-8"
-}
-
-
-task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
-    source = sourceSets.main.allJava
-    classpath = sourceSets.main.compileClasspath
-    destinationDir = javadocJsonDir
-    options.docletpath = configurations.jsondoclet.files.asType(List)
-    options.doclet = "capital.scalable.restdocs.jsondoclet.ExtractDocumentationAsJsonDoclet"
-    options.memberLevel = JavadocMemberLevel.PACKAGE
-}
-
-test {
-    systemProperty "org.springframework.restdocs.outputDir", snippetsDir
-    systemProperty "org.springframework.restdocs.javadocJsonDir", javadocJsonDir
-
-    dependsOn jsonDoclet
-}
-
-task asciidocTemplate(dependsOn: test) {
-	def pattern = /(\w+)-rest-controller-tests/
-	def snippetDirList = []
-	def snippetNameList = []
-	
-	doFirst {
-		// make gradle task not fail
-		snippetsDir.mkdirs()
-		snippetsDir.eachDirMatch(~ pattern) {
-			snippetDirList << it
-			snippetNameList << (it.name=~ pattern)[0][1]
-		}
-	}
-	
-	doLast {
-		copy {
-		    from("src/docs/asciidoc")
-		    into "$buildDir/docs/asciidoc"
-      		include "*.adoc"
-      	
-     		eachFile {
-				if (it.name == "index.adoc") { expand(snippetNameList: snippetNameList) }
-	  		}
-		}
-		
-		// creating and link snippets
-		snippetNameList.eachWithIndex { snippetName, i ->
-			def snippetMethodNameList = []
-			snippetDirList[i].eachDir { snippetMethodNameList << it.name }
-			
-			copy {
-	    		from ("src/docs/asciidoc/snippet.adoc.template")
-	    		into "$buildDir/docs/asciidoc"
-    			rename { file -> "${snippetName}.adoc" }
-    			expand(snippetClassName: snippetDirList[i].name, snippetMethodNameList: snippetMethodNameList.sort())
-			}
-		}
-	}	
-    
-}
-
 asciidoctor {
-    sourceDir = file("$buildDir/docs/asciidoc")
-    outputDir = file("$buildDir/generated-docs")
-    options backend: "html", doctype: "book"
-    attributes "source-highlighter": "highlightjs", "snippets": snippetsDir
-
-    dependsOn test
-    dependsOn asciidocTemplate
-}
-
-asciidoctor.doLast {
-    copy {
-    	from file("$buildDir/generated-docs/html5")
-    	into file("$buildDir/resources/main/public")
-    	include "index.html"
-    }
+    attributes "classname-pattern": "(\\w+(\\-\\w+)*)-rest-controller-tests"
 }
 
 bootJar {
     dependsOn asciidoctor
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
 
 eclipse {
+    project.natures 'org.eclipse.buildship.core.gradleprojectnature'
     classpath {
-		downloadJavadoc = true
-		downloadSources = true
+        downloadJavadoc = true
+        downloadSources = true
 
         defaultOutputDir = file('build/default')
         file.whenMerged {
@@ -160,29 +84,20 @@ eclipse {
                         def outputPath = source.output
                         switch(source.path) {
                             case 'src/main/java':
-                              outputPath = 'build/classes/java/main'
+                              source.output = 'build/classes/java/main'
                               break
                             case 'src/main/resources':
-                              outputPath = 'build/resources/main'
+                              source.output = 'build/resources/main'
                               break
                             case 'src/test/java':
-                              outputPath = 'build/classes/java/test'
+                              source.output = 'build/classes/java/test'
                               break
                             case 'src/test/resources':
-                              outputPath = 'build/resources/test'
+                              source.output = 'build/resources/test'
                               break
                         }
-
-                        source.output = outputPath
                     }
             }
         }
-    }
-}
-
-sonarqube {
-    properties {
-        property "sonar.projectName", "spring-petclinic-mybatis"
-        property "sonar.projectKey", "artificerpi_spring-petclinic-mybatis"
     }
 }

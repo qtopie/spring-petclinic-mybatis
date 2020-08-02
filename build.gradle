@@ -38,6 +38,7 @@ dependencies {
 	compile('com.fasterxml.jackson.core:jackson-core')
 	compile('com.fasterxml.jackson.core:jackson-databind')
 	compile('javax.xml.bind:jaxb-api:' + jaxbApiVersion)
+        compile 'javax.validation:validation-api:2.0.1.Final'
 
 	compile('io.springfox:springfox-swagger2:' + springfoxSwaggerVersion)
 	compile('io.springfox:springfox-swagger-ui:' + springfoxSwaggerVersion)

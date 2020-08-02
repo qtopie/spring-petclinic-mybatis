@@ -22,11 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author Vitaliy Fedoriv
- *
- */
-
+/** @author Vitaliy Fedoriv */
 @RestController
 @CrossOrigin(exposedHeaders = "errors, content-type")
 @RequestMapping("/")
@@ -37,6 +33,4 @@ public class RootRestController {
       throws IOException {
     response.sendRedirect(request.getContextPath() + "/swagger-ui.html");
   }
-
 }
-

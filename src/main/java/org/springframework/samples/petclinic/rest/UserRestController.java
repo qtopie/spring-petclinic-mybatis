@@ -36,20 +36,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/users")
 public class UserRestController {
 
-    @Autowired
-    private UserService userService;
+  @Autowired private UserService userService;
 
-    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<User> addOwner(@RequestBody @Valid User user,  BindingResult bindingResult) throws Exception {
-        BindingErrorsResponse errors = new BindingErrorsResponse();
-        HttpHeaders headers = new HttpHeaders();
-        if (bindingResult.hasErrors() || (user == null)) {
-            errors.addAllErrors(bindingResult);
-            headers.add("errors", errors.toJSON());
-            return new ResponseEntity<User>(user, headers, HttpStatus.BAD_REQUEST);
-        }
-
-        this.userService.saveUser(user);
-        return new ResponseEntity<User>(user, headers, HttpStatus.CREATED);
+  @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<User> addOwner(@RequestBody @Valid User user, BindingResult bindingResult)
+      throws Exception {
+    BindingErrorsResponse errors = new BindingErrorsResponse();
+    HttpHeaders headers = new HttpHeaders();
+    if (bindingResult.hasErrors() || (user == null)) {
+      errors.addAllErrors(bindingResult);
+      headers.add("errors", errors.toJSON());
+      return new ResponseEntity<User>(user, headers, HttpStatus.BAD_REQUEST);
     }
+
+    this.userService.saveUser(user);
+    return new ResponseEntity<User>(user, headers, HttpStatus.CREATED);
+  }
 }

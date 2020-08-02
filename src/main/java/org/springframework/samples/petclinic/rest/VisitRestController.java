@@ -39,81 +39,81 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-/**
- * @author Vitaliy Fedoriv
- *
- */
-
+/** @author Vitaliy Fedoriv */
 @RestController
 @CrossOrigin(exposedHeaders = "errors, content-type")
 @RequestMapping("api/visits")
 public class VisitRestController {
 
-	@Autowired
-	private ClinicService clinicService;
+  @Autowired private ClinicService clinicService;
 
-	@GetMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Collection<Visit>> getAllVisits(){
-		Collection<Visit> visits = new ArrayList<Visit>();
-		visits.addAll(this.clinicService.findAllVisits());
-		if (visits.isEmpty()){
-			return new ResponseEntity<Collection<Visit>>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<Collection<Visit>>(visits, HttpStatus.OK);
-	}
+  @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<Collection<Visit>> getAllVisits() {
+    Collection<Visit> visits = new ArrayList<Visit>();
+    visits.addAll(this.clinicService.findAllVisits());
+    if (visits.isEmpty()) {
+      return new ResponseEntity<Collection<Visit>>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<Collection<Visit>>(visits, HttpStatus.OK);
+  }
 
-	@GetMapping(value = "/{visitId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Visit> getVisit(@PathVariable("visitId") int visitId){
-		Visit visit = this.clinicService.findVisitById(visitId);
-		if(visit == null){
-			return new ResponseEntity<Visit>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<Visit>(visit, HttpStatus.OK);
-	}
+  @GetMapping(value = "/{visitId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<Visit> getVisit(@PathVariable("visitId") int visitId) {
+    Visit visit = this.clinicService.findVisitById(visitId);
+    if (visit == null) {
+      return new ResponseEntity<Visit>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<Visit>(visit, HttpStatus.OK);
+  }
 
-	@PostMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Visit> addVisit(@RequestBody @Valid Visit visit, BindingResult bindingResult, UriComponentsBuilder ucBuilder){
-		BindingErrorsResponse errors = new BindingErrorsResponse();
-		HttpHeaders headers = new HttpHeaders();
-		if(bindingResult.hasErrors() || (visit == null) || (visit.getPetId() == null)){
-			errors.addAllErrors(bindingResult);
-			headers.add("errors", errors.toJSON());
-			return new ResponseEntity<Visit>(headers, HttpStatus.BAD_REQUEST);
-		}
-		this.clinicService.saveVisit(visit);
-		headers.setLocation(ucBuilder.path("/api/visits/{id}").buildAndExpand(visit.getId()).toUri());
-		return new ResponseEntity<Visit>(visit, headers, HttpStatus.CREATED);
-	}
+  @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<Visit> addVisit(
+      @RequestBody @Valid Visit visit,
+      BindingResult bindingResult,
+      UriComponentsBuilder ucBuilder) {
+    BindingErrorsResponse errors = new BindingErrorsResponse();
+    HttpHeaders headers = new HttpHeaders();
+    if (bindingResult.hasErrors() || (visit == null) || (visit.getPetId() == null)) {
+      errors.addAllErrors(bindingResult);
+      headers.add("errors", errors.toJSON());
+      return new ResponseEntity<Visit>(headers, HttpStatus.BAD_REQUEST);
+    }
+    this.clinicService.saveVisit(visit);
+    headers.setLocation(ucBuilder.path("/api/visits/{id}").buildAndExpand(visit.getId()).toUri());
+    return new ResponseEntity<Visit>(visit, headers, HttpStatus.CREATED);
+  }
 
-	@PutMapping(value = "/{visitId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Visit> updateVisit(@PathVariable("visitId") int visitId, @RequestBody @Valid Visit visit, BindingResult bindingResult){
-		BindingErrorsResponse errors = new BindingErrorsResponse();
-		HttpHeaders headers = new HttpHeaders();
-		if(bindingResult.hasErrors() || (visit == null) || (visit.getPetId() == null)){
-			errors.addAllErrors(bindingResult);
-			headers.add("errors", errors.toJSON());
-			return new ResponseEntity<Visit>(headers, HttpStatus.BAD_REQUEST);
-		}
-		Visit currentVisit = this.clinicService.findVisitById(visitId);
-		if(currentVisit == null){
-			return new ResponseEntity<Visit>(HttpStatus.NOT_FOUND);
-		}
-		currentVisit.setDate(visit.getDate());
-		currentVisit.setDescription(visit.getDescription());
-		currentVisit.setPetId(visit.getPetId());
-		this.clinicService.saveVisit(currentVisit);
-		return new ResponseEntity<Visit>(currentVisit, HttpStatus.NO_CONTENT);
-	}
+  @PutMapping(value = "/{visitId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<Visit> updateVisit(
+      @PathVariable("visitId") int visitId,
+      @RequestBody @Valid Visit visit,
+      BindingResult bindingResult) {
+    BindingErrorsResponse errors = new BindingErrorsResponse();
+    HttpHeaders headers = new HttpHeaders();
+    if (bindingResult.hasErrors() || (visit == null) || (visit.getPetId() == null)) {
+      errors.addAllErrors(bindingResult);
+      headers.add("errors", errors.toJSON());
+      return new ResponseEntity<Visit>(headers, HttpStatus.BAD_REQUEST);
+    }
+    Visit currentVisit = this.clinicService.findVisitById(visitId);
+    if (currentVisit == null) {
+      return new ResponseEntity<Visit>(HttpStatus.NOT_FOUND);
+    }
+    currentVisit.setDate(visit.getDate());
+    currentVisit.setDescription(visit.getDescription());
+    currentVisit.setPetId(visit.getPetId());
+    this.clinicService.saveVisit(currentVisit);
+    return new ResponseEntity<Visit>(currentVisit, HttpStatus.NO_CONTENT);
+  }
 
-	@DeleteMapping(value = "/{visitId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@Transactional
-	public ResponseEntity<Void> deleteVisit(@PathVariable("visitId") int visitId){
-		Visit visit = this.clinicService.findVisitById(visitId);
-		if(visit == null){
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-		}
-		this.clinicService.deleteVisit(visit);
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-	}
-
+  @DeleteMapping(value = "/{visitId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @Transactional
+  public ResponseEntity<Void> deleteVisit(@PathVariable("visitId") int visitId) {
+    Visit visit = this.clinicService.findVisitById(visitId);
+    if (visit == null) {
+      return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+    }
+    this.clinicService.deleteVisit(visit);
+    return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+  }
 }

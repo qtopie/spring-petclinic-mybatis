@@ -15,6 +15,9 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -23,7 +26,6 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -36,9 +38,6 @@ import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.rest.serializer.JacksonCustomPetDeserializer;
 import org.springframework.samples.petclinic.rest.serializer.JacksonCustomPetSerializer;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Simple business object representing a pet.
@@ -51,68 +50,66 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize(using = JacksonCustomPetSerializer.class)
 @JsonDeserialize(using = JacksonCustomPetDeserializer.class)
 public class Pet extends NamedEntity {
-  
-  
-    @Column(name = "birth_date")
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy/MM/dd")
-    private Date birthDate;
 
-    @ManyToOne
-    @JoinColumn(name = "type_id")
-    private PetType type;
+  @Column(name = "birth_date")
+  @Temporal(TemporalType.DATE)
+  @DateTimeFormat(pattern = "yyyy/MM/dd")
+  private Date birthDate;
 
-    @Column(name = "owner_id")
-    private Integer ownerId;
+  @ManyToOne
+  @JoinColumn(name = "type_id")
+  private PetType type;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "petId", fetch = FetchType.EAGER)
-    private Set<Visit> visits;
+  @Column(name = "owner_id")
+  private Integer ownerId;
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "petId", fetch = FetchType.EAGER)
+  private Set<Visit> visits;
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+  public void setBirthDate(Date birthDate) {
+    this.birthDate = birthDate;
+  }
+
+  public Date getBirthDate() {
+    return this.birthDate;
+  }
+
+  public PetType getType() {
+    return this.type;
+  }
+
+  public void setType(PetType type) {
+    this.type = type;
+  }
+
+  public Integer getOwnerId() {
+    return this.ownerId;
+  }
+
+  public void setOwnerId(Integer ownerId) {
+    this.ownerId = ownerId;
+  }
+
+  @JsonIgnore
+  protected Set<Visit> getVisitsInternal() {
+    if (this.visits == null) {
+      this.visits = new HashSet<>();
     }
+    return this.visits;
+  }
 
-    public Date getBirthDate() {
-        return this.birthDate;
-    }
+  protected void setVisitsInternal(Set<Visit> visits) {
+    this.visits = visits;
+  }
 
-    public PetType getType() {
-        return this.type;
-    }
+  public List<Visit> getVisits() {
+    List<Visit> sortedVisits = new ArrayList<>(getVisitsInternal());
+    PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
+    return Collections.unmodifiableList(sortedVisits);
+  }
 
-    public void setType(PetType type) {
-        this.type = type;
-    }
-
-    public Integer getOwnerId() {
-        return this.ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
-    }
-    @JsonIgnore
-    protected Set<Visit> getVisitsInternal() {
-        if (this.visits == null) {
-            this.visits = new HashSet<>();
-        }
-        return this.visits;
-    }
-
-    protected void setVisitsInternal(Set<Visit> visits) {
-        this.visits = visits;
-    }
-
-    public List<Visit> getVisits() {
-        List<Visit> sortedVisits = new ArrayList<>(getVisitsInternal());
-        PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
-        return Collections.unmodifiableList(sortedVisits);
-    }
-
-    public void addVisit(Visit visit) {
-        getVisitsInternal().add(visit);
-        visit.setPetId(this.id);
-    }
-
+  public void addVisit(Visit visit) {
+    getVisitsInternal().add(visit);
+    visit.setPetId(this.id);
+  }
 }

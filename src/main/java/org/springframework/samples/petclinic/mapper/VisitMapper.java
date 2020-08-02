@@ -16,15 +16,21 @@ public interface VisitMapper {
   void save(Visit visit) throws DataAccessException;
 
   @Select("SELECT * FROM visits WHERE pet_id = #{petId}")
-  @Results({@Result(property = "petId", column = "pet_id"),})
+  @Results({
+    @Result(property = "petId", column = "pet_id"),
+  })
   List<Visit> findByPetId(Integer petId);
 
   @Select("SELECT * FROM visits WHERE id = #{id}")
-  @Results({@Result(property = "petId", column = "pet_id"),})
+  @Results({
+    @Result(property = "petId", column = "pet_id"),
+  })
   Visit findById(int id) throws DataAccessException;
 
   @Select("SELECT * FROM visits")
-  @Results({@Result(property = "petId", column = "pet_id"),})
+  @Results({
+    @Result(property = "petId", column = "pet_id"),
+  })
   Collection<Visit> findAll() throws DataAccessException;
 
   @Delete("DELETE FROM visits WHERE id = #{id}")

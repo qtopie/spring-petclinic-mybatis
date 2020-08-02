@@ -17,11 +17,6 @@ package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Table;
 
-/**
- * @author Juergen Hoeller
- *         Can be Cat, Dog, Hamster...
- */
+/** @author Juergen Hoeller Can be Cat, Dog, Hamster... */
 @Table(name = "types")
-public class PetType extends NamedEntity {
-
-}
+public class PetType extends NamedEntity {}

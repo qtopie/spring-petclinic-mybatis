@@ -22,17 +22,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * <p> Integration test using the mysql profile.
+ * Integration test using the mysql profile.
  *
  * @author Thomas Risberg
  * @author Michael Isvy
- * @see AbstractClinicServiceTests AbstractClinicServiceTests for more details. </p>
+ * @see AbstractClinicServiceTests AbstractClinicServiceTests for more details.
  */
 @Ignore
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("jdbc, mysql")
-public class ClinicServiceTests extends AbstractClinicServiceTests {
-
-
-}
+public class ClinicServiceTests extends AbstractClinicServiceTests {}

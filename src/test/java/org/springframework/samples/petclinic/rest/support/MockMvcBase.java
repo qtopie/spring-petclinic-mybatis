@@ -29,6 +29,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import capital.scalable.restdocs.jackson.TypeMapping;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.servlet.Filter;
 import org.junit.Before;
 import org.junit.Rule;
@@ -48,46 +51,59 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.context.WebApplicationContext;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import capital.scalable.restdocs.jackson.TypeMapping;
 
-/**
- * MockMvcBase
- */
+/** MockMvcBase */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public abstract class MockMvcBase {
 
   private static final String DEFAULT_AUTHORIZATION = "Resource is public.";
 
-  @Autowired
-  private WebApplicationContext context;
+  @Autowired private WebApplicationContext context;
 
-  @Autowired
-  protected ObjectMapper objectMapper;
+  @Autowired protected ObjectMapper objectMapper;
 
   @Autowired
   @Qualifier("requestContextFilter")
   private Filter springSecurityFilterChain;
 
-//  @Value("${server.port:8080}")
-//  private Integer serverPort = 8080;
+  //  @Value("${server.port:8080}")
+  //  private Integer serverPort = 8080;
 
   protected MockMvc mockMvc;
 
-  @Rule
-  public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
+  @Rule public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
 
   @Before
   public void setUp() throws Exception {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(context).addFilters(springSecurityFilterChain)
-        .alwaysDo(prepareJackson(objectMapper, new TypeMapping())).alwaysDo(commonDocumentation())
-        .apply(documentationConfiguration(restDocumentation).uris().withScheme("http")
-            .withHost("localhost").withPort(8080).and().snippets().withDefaults(curlRequest(),
-                httpRequest(), httpResponse(), requestFields(), responseFields(), pathParameters(),
-                requestParameters(), description(), methodAndPath(), section(), links(), embedded(),
-                authorization(DEFAULT_AUTHORIZATION)))
-        .build();
+    this.mockMvc =
+        MockMvcBuilders.webAppContextSetup(context)
+            .addFilters(springSecurityFilterChain)
+            .alwaysDo(prepareJackson(objectMapper, new TypeMapping()))
+            .alwaysDo(commonDocumentation())
+            .apply(
+                documentationConfiguration(restDocumentation)
+                    .uris()
+                    .withScheme("http")
+                    .withHost("localhost")
+                    .withPort(8080)
+                    .and()
+                    .snippets()
+                    .withDefaults(
+                        curlRequest(),
+                        httpRequest(),
+                        httpResponse(),
+                        requestFields(),
+                        responseFields(),
+                        pathParameters(),
+                        requestParameters(),
+                        description(),
+                        methodAndPath(),
+                        section(),
+                        links(),
+                        embedded(),
+                        authorization(DEFAULT_AUTHORIZATION)))
+            .build();
   }
 
   protected RestDocumentationResultHandler commonDocumentation(Snippet... snippets) {
@@ -95,10 +111,9 @@ public abstract class MockMvcBase {
   }
 
   protected OperationResponsePreprocessor commonResponsePreprocessor() {
-    return preprocessResponse(replaceBinaryContent(), limitJsonArrayLength(objectMapper),
-        prettyPrint());
+    return preprocessResponse(
+        replaceBinaryContent(), limitJsonArrayLength(objectMapper), prettyPrint());
   }
-
 
   protected RequestPostProcessor userToken() {
     return request -> {
@@ -119,19 +134,28 @@ public abstract class MockMvcBase {
     String authorization = "Basic " + new String(Base64Utils.encode("app:very_secret".getBytes()));
     String contentType = MediaType.APPLICATION_JSON + ";charset=UTF-8";
 
-    String body = mockMvc
-        .perform(post("/oauth/token").header("Authorization", authorization)
-            .contentType(MediaType.APPLICATION_FORM_URLENCODED).param("username", username)
-            .param("password", password).param("grant_type", "password")
-            .param("scope", "read write").param("client_id", "app")
-            .param("client_secret", "very_secret"))
-        .andExpect(status().isOk()).andExpect(content().contentType(contentType))
-        .andExpect(jsonPath("$.access_token", is(notNullValue())))
-        .andExpect(jsonPath("$.token_type", is(equalTo("bearer"))))
-        .andExpect(jsonPath("$.refresh_token", is(notNullValue())))
-        .andExpect(jsonPath("$.expires_in", is(greaterThan(4000))))
-        .andExpect(jsonPath("$.scope", is(equalTo("read write")))).andReturn().getResponse()
-        .getContentAsString();
+    String body =
+        mockMvc
+            .perform(
+                post("/oauth/token")
+                    .header("Authorization", authorization)
+                    .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                    .param("username", username)
+                    .param("password", password)
+                    .param("grant_type", "password")
+                    .param("scope", "read write")
+                    .param("client_id", "app")
+                    .param("client_secret", "very_secret"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(contentType))
+            .andExpect(jsonPath("$.access_token", is(notNullValue())))
+            .andExpect(jsonPath("$.token_type", is(equalTo("bearer"))))
+            .andExpect(jsonPath("$.refresh_token", is(notNullValue())))
+            .andExpect(jsonPath("$.expires_in", is(greaterThan(4000))))
+            .andExpect(jsonPath("$.scope", is(equalTo("read write"))))
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
     return body.substring(17, 53);
   }

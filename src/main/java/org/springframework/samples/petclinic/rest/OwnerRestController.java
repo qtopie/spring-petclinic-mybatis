@@ -14,6 +14,9 @@
 
 package org.springframework.samples.petclinic.rest;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 import java.util.Collection;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -36,25 +39,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
 
-/**
- * @author Vitaliy Fedoriv
- *
- */
-
-@Api(value = "api/owners", authorizations = {@Authorization(SwaggerConfig.BEARER_API_KEY)})
+/** @author Vitaliy Fedoriv */
+@Api(
+    value = "api/owners",
+    authorizations = {@Authorization(SwaggerConfig.BEARER_API_KEY)})
 @RestController
 @CrossOrigin(exposedHeaders = "errors, content-type")
 @RequestMapping("/api/owners")
 public class OwnerRestController {
 
-  @Autowired
-  private ClinicService clinicService;
+  @Autowired private ClinicService clinicService;
 
-  @ApiOperation(value = "/*/last/name/{lastName}",
+  @ApiOperation(
+      value = "/*/last/name/{lastName}",
       authorizations = {@Authorization(SwaggerConfig.BEARER_API_KEY)})
   @GetMapping(value = "/*/lastname/{lastName}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public ResponseEntity<Collection<Owner>> getOwnersList(
@@ -89,8 +87,10 @@ public class OwnerRestController {
   }
 
   @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-  public ResponseEntity<Owner> addOwner(@RequestBody @Valid Owner owner,
-      BindingResult bindingResult, UriComponentsBuilder ucBuilder) {
+  public ResponseEntity<Owner> addOwner(
+      @RequestBody @Valid Owner owner,
+      BindingResult bindingResult,
+      UriComponentsBuilder ucBuilder) {
     BindingErrorsResponse errors = new BindingErrorsResponse();
     HttpHeaders headers = new HttpHeaders();
     if (bindingResult.hasErrors() || (owner == null)) {
@@ -104,8 +104,10 @@ public class OwnerRestController {
   }
 
   @PutMapping(value = "/{ownerId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-  public ResponseEntity<Owner> updateOwner(@PathVariable("ownerId") int ownerId,
-      @RequestBody @Valid Owner owner, BindingResult bindingResult,
+  public ResponseEntity<Owner> updateOwner(
+      @PathVariable("ownerId") int ownerId,
+      @RequestBody @Valid Owner owner,
+      BindingResult bindingResult,
       UriComponentsBuilder ucBuilder) {
     BindingErrorsResponse errors = new BindingErrorsResponse();
     HttpHeaders headers = new HttpHeaders();
@@ -137,5 +139,4 @@ public class OwnerRestController {
     this.clinicService.deleteOwner(owner);
     return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
   }
-
 }

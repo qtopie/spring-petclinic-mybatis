@@ -16,63 +16,91 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 
-/**
- * 
- * @author artificerpi
- *
- */
+/** @author artificerpi */
 @Mapper
 public interface PetMapper {
 
   @Select("SELECT * FROM pets WHERE id = #{id}")
   @Results({
-    @Result(property = "id",  column = "id"),
-    @Result(property = "birthDate",  column = "birth_date", javaType = Date.class),
-    @Result(property = "type",  column = "type_id", javaType = PetType.class,
-      one=@One(select="org.springframework.samples.petclinic.mapper.PetTypeMapper.findById")),
-    @Result(property = "ownerId",  column = "owner_id"),
-    @Result(property = "visits", column = "id",
-      many=@Many(fetchType=FetchType.EAGER, select="org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId")),
+    @Result(property = "id", column = "id"),
+    @Result(property = "birthDate", column = "birth_date", javaType = Date.class),
+    @Result(
+        property = "type",
+        column = "type_id",
+        javaType = PetType.class,
+        one = @One(select = "org.springframework.samples.petclinic.mapper.PetTypeMapper.findById")),
+    @Result(property = "ownerId", column = "owner_id"),
+    @Result(
+        property = "visits",
+        column = "id",
+        many =
+            @Many(
+                fetchType = FetchType.EAGER,
+                select = "org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId")),
   })
   Pet findById(int id) throws DataAccessException;
-  
+
   @Select("SELECT * FROM pets")
   @Results({
-    @Result(property = "id",  column = "id"),
-    @Result(property = "birthDate",  column = "birth_date", javaType = Date.class),
-    @Result(property = "type",  column = "type_id", javaType = PetType.class,
-      one=@One(select="org.springframework.samples.petclinic.mapper.PetTypeMapper.findById")),
-    @Result(property = "ownerId",  column = "owner_id"),
-    @Result(property = "visits",  column = "id",
-      many=@Many(fetchType=FetchType.EAGER, select="org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId")),
+    @Result(property = "id", column = "id"),
+    @Result(property = "birthDate", column = "birth_date", javaType = Date.class),
+    @Result(
+        property = "type",
+        column = "type_id",
+        javaType = PetType.class,
+        one = @One(select = "org.springframework.samples.petclinic.mapper.PetTypeMapper.findById")),
+    @Result(property = "ownerId", column = "owner_id"),
+    @Result(
+        property = "visits",
+        column = "id",
+        many =
+            @Many(
+                fetchType = FetchType.EAGER,
+                select = "org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId")),
   })
   @ResultType(value = Collection.class)
   Collection<Pet> findAll() throws DataAccessException;
-  
+
   @Select("SELECT * FROM pets WHERE type_id = #{petTypeId}")
   @Results({
-    @Result(property = "id",  column = "id"),
-    @Result(property = "birthDate",  column = "birth_date", javaType = Date.class),
-    @Result(property = "type",  column = "type_id", javaType = PetType.class,
-      one=@One(select="org.springframework.samples.petclinic.mapper.PetTypeMapper.findById")),
-    @Result(property = "ownerId",  column = "owner_id"),
-    @Result(property = "visits",  column = "id",
-      many=@Many(fetchType=FetchType.EAGER, select="org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId")),
+    @Result(property = "id", column = "id"),
+    @Result(property = "birthDate", column = "birth_date", javaType = Date.class),
+    @Result(
+        property = "type",
+        column = "type_id",
+        javaType = PetType.class,
+        one = @One(select = "org.springframework.samples.petclinic.mapper.PetTypeMapper.findById")),
+    @Result(property = "ownerId", column = "owner_id"),
+    @Result(
+        property = "visits",
+        column = "id",
+        many =
+            @Many(
+                fetchType = FetchType.EAGER,
+                select = "org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId")),
   })
   @ResultType(value = Collection.class)
   Collection<Pet> findByTypeId(int petTypeId);
-  
+
   void save(Pet pet) throws DataAccessException;
-  
+
   @Select("SELECT * FROM pets WHERE owner_id = #{id}")
   @Results({
-	@Result(property = "id",  column = "id"),
-    @Result(property = "birthDate",  column = "birth_date", javaType = Date.class),
-    @Result(property = "type",  column = "type_id", javaType = PetType.class,
-      one=@One(select="org.springframework.samples.petclinic.mapper.PetTypeMapper.findById")),
-    @Result(property = "ownerId",  column = "owner_id"),
-    @Result(property = "visits",  column = "id",
-      many=@Many(fetchType=FetchType.EAGER, select="org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId")), 
+    @Result(property = "id", column = "id"),
+    @Result(property = "birthDate", column = "birth_date", javaType = Date.class),
+    @Result(
+        property = "type",
+        column = "type_id",
+        javaType = PetType.class,
+        one = @One(select = "org.springframework.samples.petclinic.mapper.PetTypeMapper.findById")),
+    @Result(property = "ownerId", column = "owner_id"),
+    @Result(
+        property = "visits",
+        column = "id",
+        many =
+            @Many(
+                fetchType = FetchType.EAGER,
+                select = "org.springframework.samples.petclinic.mapper.VisitMapper.findByPetId")),
   })
   Set<Pet> findByOwnerId(int id) throws DataAccessException;
 

@@ -17,25 +17,39 @@ public interface VetMapper {
   @Select("SELECT * FROM vets")
   @Results({
     @Result(property = "id", column = "id"),
-    @Result(property = "firstName",  column = "first_name"),
-    @Result(property = "lastName",  column = "last_name"),
-    @Result(property = "specialties", javaType=Set.class, column = "id",
-    many=@Many(fetchType=FetchType.EAGER, select="org.springframework.samples.petclinic.mapper.SpecialtyMapper.findByVetId")),
+    @Result(property = "firstName", column = "first_name"),
+    @Result(property = "lastName", column = "last_name"),
+    @Result(
+        property = "specialties",
+        javaType = Set.class,
+        column = "id",
+        many =
+            @Many(
+                fetchType = FetchType.EAGER,
+                select =
+                    "org.springframework.samples.petclinic.mapper.SpecialtyMapper.findByVetId")),
   })
   Collection<Vet> findAll() throws DataAccessException;
-  
+
   @Select("SELECT * FROM vets WHERE id = #{id}")
   @Results({
     @Result(property = "id", column = "id"),
-    @Result(property = "firstName",  column = "first_name"),
-    @Result(property = "lastName",  column = "last_name"),
-    @Result(property = "specialties", javaType=Set.class, column = "id",
-    many=@Many(fetchType=FetchType.EAGER, select="org.springframework.samples.petclinic.mapper.SpecialtyMapper.findByVetId")),
+    @Result(property = "firstName", column = "first_name"),
+    @Result(property = "lastName", column = "last_name"),
+    @Result(
+        property = "specialties",
+        javaType = Set.class,
+        column = "id",
+        many =
+            @Many(
+                fetchType = FetchType.EAGER,
+                select =
+                    "org.springframework.samples.petclinic.mapper.SpecialtyMapper.findByVetId")),
   })
   Vet findById(int id) throws DataAccessException;
 
   void save(Vet vet) throws DataAccessException;
-  
+
   @Delete("DELETE FROM vets WHERE id = #{id}")
   void delete(Vet vet) throws DataAccessException;
 }

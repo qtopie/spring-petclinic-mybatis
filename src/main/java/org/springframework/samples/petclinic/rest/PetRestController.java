@@ -38,87 +38,83 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-/**
- * @author Vitaliy Fedoriv
- *
- */
-
+/** @author Vitaliy Fedoriv */
 @RestController
 @CrossOrigin(exposedHeaders = "errors, content-type")
 @RequestMapping("api/pets")
 public class PetRestController {
 
-	@Autowired
-	private ClinicService clinicService;
+  @Autowired private ClinicService clinicService;
 
-	@GetMapping(value = "/{petId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Pet> getPet(@PathVariable("petId") int petId){
-		Pet pet = this.clinicService.findPetById(petId);
-		if(pet == null){
-			return new ResponseEntity<Pet>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<Pet>(pet, HttpStatus.OK);
-	}
+  @GetMapping(value = "/{petId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<Pet> getPet(@PathVariable("petId") int petId) {
+    Pet pet = this.clinicService.findPetById(petId);
+    if (pet == null) {
+      return new ResponseEntity<Pet>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<Pet>(pet, HttpStatus.OK);
+  }
 
-	@GetMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Collection<Pet>> getPets(){
-		Collection<Pet> pets = this.clinicService.findAllPets();
-		if(pets.isEmpty()){
-			return new ResponseEntity<Collection<Pet>>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<Collection<Pet>>(pets, HttpStatus.OK);
-	}
+  @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<Collection<Pet>> getPets() {
+    Collection<Pet> pets = this.clinicService.findAllPets();
+    if (pets.isEmpty()) {
+      return new ResponseEntity<Collection<Pet>>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<Collection<Pet>>(pets, HttpStatus.OK);
+  }
 
-	@GetMapping(value = "/pettype/{petTypeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Collection<Pet>> getPetTypes(@PathVariable("petTypeId") int petTypeId){
-		return new ResponseEntity<Collection<Pet>>(this.clinicService.findPetsByPetType(petTypeId), HttpStatus.OK);
-	}
+  @GetMapping(value = "/pettype/{petTypeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<Collection<Pet>> getPetTypes(@PathVariable("petTypeId") int petTypeId) {
+    return new ResponseEntity<Collection<Pet>>(
+        this.clinicService.findPetsByPetType(petTypeId), HttpStatus.OK);
+  }
 
-	@PostMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Pet> addPet(@RequestBody @Valid Pet pet, BindingResult bindingResult, UriComponentsBuilder ucBuilder){
-		BindingErrorsResponse errors = new BindingErrorsResponse();
-		HttpHeaders headers = new HttpHeaders();
-		if(bindingResult.hasErrors() || (pet == null)){
-			errors.addAllErrors(bindingResult);
-			headers.add("errors", errors.toJSON());
-			return new ResponseEntity<Pet>(headers, HttpStatus.BAD_REQUEST);
-		}
-		this.clinicService.savePet(pet);
-		headers.setLocation(ucBuilder.path("/api/pets/{id}").buildAndExpand(pet.getId()).toUri());
-		return new ResponseEntity<Pet>(pet, headers, HttpStatus.CREATED);
-	}
+  @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<Pet> addPet(
+      @RequestBody @Valid Pet pet, BindingResult bindingResult, UriComponentsBuilder ucBuilder) {
+    BindingErrorsResponse errors = new BindingErrorsResponse();
+    HttpHeaders headers = new HttpHeaders();
+    if (bindingResult.hasErrors() || (pet == null)) {
+      errors.addAllErrors(bindingResult);
+      headers.add("errors", errors.toJSON());
+      return new ResponseEntity<Pet>(headers, HttpStatus.BAD_REQUEST);
+    }
+    this.clinicService.savePet(pet);
+    headers.setLocation(ucBuilder.path("/api/pets/{id}").buildAndExpand(pet.getId()).toUri());
+    return new ResponseEntity<Pet>(pet, headers, HttpStatus.CREATED);
+  }
 
-	@PutMapping(value = "/{petId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Pet> updatePet(@PathVariable("petId") int petId, @RequestBody @Valid Pet pet, BindingResult bindingResult){
-		BindingErrorsResponse errors = new BindingErrorsResponse();
-		HttpHeaders headers = new HttpHeaders();
-		if(bindingResult.hasErrors() || (pet == null)){
-			errors.addAllErrors(bindingResult);
-			headers.add("errors", errors.toJSON());
-			return new ResponseEntity<Pet>(headers, HttpStatus.BAD_REQUEST);
-		}
-		Pet currentPet = this.clinicService.findPetById(petId);
-		if(currentPet == null){
-			return new ResponseEntity<Pet>(HttpStatus.NOT_FOUND);
-		}
-		currentPet.setBirthDate(pet.getBirthDate());
-		currentPet.setName(pet.getName());
-		currentPet.setType(pet.getType());
-		currentPet.setOwnerId(pet.getOwnerId());
-		this.clinicService.savePet(currentPet);
-		return new ResponseEntity<Pet>(currentPet, HttpStatus.NO_CONTENT);
-	}
+  @PutMapping(value = "/{petId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<Pet> updatePet(
+      @PathVariable("petId") int petId, @RequestBody @Valid Pet pet, BindingResult bindingResult) {
+    BindingErrorsResponse errors = new BindingErrorsResponse();
+    HttpHeaders headers = new HttpHeaders();
+    if (bindingResult.hasErrors() || (pet == null)) {
+      errors.addAllErrors(bindingResult);
+      headers.add("errors", errors.toJSON());
+      return new ResponseEntity<Pet>(headers, HttpStatus.BAD_REQUEST);
+    }
+    Pet currentPet = this.clinicService.findPetById(petId);
+    if (currentPet == null) {
+      return new ResponseEntity<Pet>(HttpStatus.NOT_FOUND);
+    }
+    currentPet.setBirthDate(pet.getBirthDate());
+    currentPet.setName(pet.getName());
+    currentPet.setType(pet.getType());
+    currentPet.setOwnerId(pet.getOwnerId());
+    this.clinicService.savePet(currentPet);
+    return new ResponseEntity<Pet>(currentPet, HttpStatus.NO_CONTENT);
+  }
 
-	@DeleteMapping(value = "/{petId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@Transactional
-	public ResponseEntity<Void> deletePet(@PathVariable("petId") int petId){
-		Pet pet = this.clinicService.findPetById(petId);
-		if(pet == null){
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-		}
-		this.clinicService.deletePet(pet);
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-	}
-
-
+  @DeleteMapping(value = "/{petId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @Transactional
+  public ResponseEntity<Void> deletePet(@PathVariable("petId") int petId) {
+    Pet pet = this.clinicService.findPetById(petId);
+    if (pet == null) {
+      return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+    }
+    this.clinicService.deletePet(pet);
+    return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+  }
 }

@@ -44,69 +44,74 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping("api/pettypes")
 public class PetTypeRestController {
 
-	@Autowired
-	private ClinicService clinicService;
+  @Autowired private ClinicService clinicService;
 
-	@GetMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Collection<PetType>> getAllPetTypes(){
-		Collection<PetType> petTypes = new ArrayList<PetType>();
-		petTypes.addAll(this.clinicService.findAllPetTypes());
-		if (petTypes.isEmpty()){
-			return new ResponseEntity<Collection<PetType>>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<Collection<PetType>>(petTypes, HttpStatus.OK);
-	}
+  @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<Collection<PetType>> getAllPetTypes() {
+    Collection<PetType> petTypes = new ArrayList<PetType>();
+    petTypes.addAll(this.clinicService.findAllPetTypes());
+    if (petTypes.isEmpty()) {
+      return new ResponseEntity<Collection<PetType>>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<Collection<PetType>>(petTypes, HttpStatus.OK);
+  }
 
-	@GetMapping(value = "/{petTypeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<PetType> getPetType(@PathVariable("petTypeId") int petTypeId){
-		PetType petType = this.clinicService.findPetTypeById(petTypeId);
-		if(petType == null){
-			return new ResponseEntity<PetType>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<PetType>(petType, HttpStatus.OK);
-	}
+  @GetMapping(value = "/{petTypeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<PetType> getPetType(@PathVariable("petTypeId") int petTypeId) {
+    PetType petType = this.clinicService.findPetTypeById(petTypeId);
+    if (petType == null) {
+      return new ResponseEntity<PetType>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<PetType>(petType, HttpStatus.OK);
+  }
 
-	@PostMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<PetType> addPetType(@RequestBody @Valid PetType petType, BindingResult bindingResult, UriComponentsBuilder ucBuilder){
-		BindingErrorsResponse errors = new BindingErrorsResponse();
-		HttpHeaders headers = new HttpHeaders();
-		if(bindingResult.hasErrors() || (petType == null)){
-			errors.addAllErrors(bindingResult);
-			headers.add("errors", errors.toJSON());
-			return new ResponseEntity<PetType>(headers, HttpStatus.BAD_REQUEST);
-		}
-		this.clinicService.savePetType(petType);
-		headers.setLocation(ucBuilder.path("/api/pettypes/{id}").buildAndExpand(petType.getId()).toUri());
-		return new ResponseEntity<PetType>(petType, headers, HttpStatus.CREATED);
-	}
+  @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<PetType> addPetType(
+      @RequestBody @Valid PetType petType,
+      BindingResult bindingResult,
+      UriComponentsBuilder ucBuilder) {
+    BindingErrorsResponse errors = new BindingErrorsResponse();
+    HttpHeaders headers = new HttpHeaders();
+    if (bindingResult.hasErrors() || (petType == null)) {
+      errors.addAllErrors(bindingResult);
+      headers.add("errors", errors.toJSON());
+      return new ResponseEntity<PetType>(headers, HttpStatus.BAD_REQUEST);
+    }
+    this.clinicService.savePetType(petType);
+    headers.setLocation(
+        ucBuilder.path("/api/pettypes/{id}").buildAndExpand(petType.getId()).toUri());
+    return new ResponseEntity<PetType>(petType, headers, HttpStatus.CREATED);
+  }
 
-	@PutMapping(value = "/{petTypeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<PetType> updatePetType(@PathVariable("petTypeId") int petTypeId, @RequestBody @Valid PetType petType, BindingResult bindingResult){
-		BindingErrorsResponse errors = new BindingErrorsResponse();
-		HttpHeaders headers = new HttpHeaders();
-		if(bindingResult.hasErrors() || (petType == null)){
-			errors.addAllErrors(bindingResult);
-			headers.add("errors", errors.toJSON());
-			return new ResponseEntity<PetType>(headers, HttpStatus.BAD_REQUEST);
-		}
-		PetType currentPetType = this.clinicService.findPetTypeById(petTypeId);
-		if(currentPetType == null){
-			return new ResponseEntity<PetType>(HttpStatus.NOT_FOUND);
-		}
-		currentPetType.setName(petType.getName());
-		this.clinicService.savePetType(currentPetType);
-		return new ResponseEntity<PetType>(currentPetType, HttpStatus.NO_CONTENT);
-	}
+  @PutMapping(value = "/{petTypeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<PetType> updatePetType(
+      @PathVariable("petTypeId") int petTypeId,
+      @RequestBody @Valid PetType petType,
+      BindingResult bindingResult) {
+    BindingErrorsResponse errors = new BindingErrorsResponse();
+    HttpHeaders headers = new HttpHeaders();
+    if (bindingResult.hasErrors() || (petType == null)) {
+      errors.addAllErrors(bindingResult);
+      headers.add("errors", errors.toJSON());
+      return new ResponseEntity<PetType>(headers, HttpStatus.BAD_REQUEST);
+    }
+    PetType currentPetType = this.clinicService.findPetTypeById(petTypeId);
+    if (currentPetType == null) {
+      return new ResponseEntity<PetType>(HttpStatus.NOT_FOUND);
+    }
+    currentPetType.setName(petType.getName());
+    this.clinicService.savePetType(currentPetType);
+    return new ResponseEntity<PetType>(currentPetType, HttpStatus.NO_CONTENT);
+  }
 
-	@DeleteMapping(value = "/{petTypeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@Transactional
-	public ResponseEntity<Void> deletePetType(@PathVariable("petTypeId") int petTypeId){
-		PetType petType = this.clinicService.findPetTypeById(petTypeId);
-		if(petType == null){
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-		}
-		this.clinicService.deletePetType(petType);
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-	}
-
+  @DeleteMapping(value = "/{petTypeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @Transactional
+  public ResponseEntity<Void> deletePetType(@PathVariable("petTypeId") int petTypeId) {
+    PetType petType = this.clinicService.findPetTypeById(petTypeId);
+    if (petType == null) {
+      return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+    }
+    this.clinicService.deletePetType(petType);
+    return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+  }
 }

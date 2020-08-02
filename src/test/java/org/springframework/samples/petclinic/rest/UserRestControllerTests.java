@@ -2,6 +2,8 @@ package org.springframework.samples.petclinic.rest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -19,7 +21,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Ignore("User-Role need refactoring")
 @SpringBootTest
@@ -28,46 +29,54 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WebAppConfiguration
 public class UserRestControllerTests {
 
-    @Mock
-    private UserService userService;
+  @Mock private UserService userService;
 
-    @Autowired
-    private UserRestController userRestController;
+  @Autowired private UserRestController userRestController;
 
-    private MockMvc mockMvc;
+  private MockMvc mockMvc;
 
-    @Before
-    public void initVets() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(userRestController)
-            .setControllerAdvice(new ExceptionControllerAdvice()).build();
-    }
+  @Before
+  public void initVets() {
+    this.mockMvc =
+        MockMvcBuilders.standaloneSetup(userRestController)
+            .setControllerAdvice(new ExceptionControllerAdvice())
+            .build();
+  }
 
-    @Test
-    @WithMockUser(roles="ADMIN")
-    public void testCreateUserSuccess() throws Exception {
-        User user = new User();
-        user.setUsername("username");
-        user.setPassword("password");
-        user.setEnabled(true);
-        user.addRole( "OWNER_ADMIN" );
-        ObjectMapper mapper = new ObjectMapper();
-        String newVetAsJSON = mapper.writeValueAsString(user);
-        this.mockMvc.perform(post("/api/users/")
-            .content(newVetAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(status().isCreated());
-    }
+  @Test
+  @WithMockUser(roles = "ADMIN")
+  public void testCreateUserSuccess() throws Exception {
+    User user = new User();
+    user.setUsername("username");
+    user.setPassword("password");
+    user.setEnabled(true);
+    user.addRole("OWNER_ADMIN");
+    ObjectMapper mapper = new ObjectMapper();
+    String newVetAsJSON = mapper.writeValueAsString(user);
+    this.mockMvc
+        .perform(
+            post("/api/users/")
+                .content(newVetAsJSON)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().isCreated());
+  }
 
-    @Test
-    @WithMockUser(roles="ADMIN")
-    public void testCreateUserError() throws Exception {
-        User user = new User();
-        user.setUsername("username");
-        user.setPassword("password");
-        user.setEnabled(true);
-        ObjectMapper mapper = new ObjectMapper();
-        String newVetAsJSON = mapper.writeValueAsString(user);
-        this.mockMvc.perform(post("/api/users/")
-            .content(newVetAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(status().isBadRequest());
-    }
+  @Test
+  @WithMockUser(roles = "ADMIN")
+  public void testCreateUserError() throws Exception {
+    User user = new User();
+    user.setUsername("username");
+    user.setPassword("password");
+    user.setEnabled(true);
+    ObjectMapper mapper = new ObjectMapper();
+    String newVetAsJSON = mapper.writeValueAsString(user);
+    this.mockMvc
+        .perform(
+            post("/api/users/")
+                .content(newVetAsJSON)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().isBadRequest());
+  }
 }

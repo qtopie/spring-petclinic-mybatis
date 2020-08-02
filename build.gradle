@@ -82,10 +82,8 @@ eclipse {
 		]
 
 		file.whenMerged {
-			entries.each { source ->
-				if (source.kind == 'src' && source.hasProperty('output')) {
-					source.output = map.get(source.path) ?: defaultOutputDir
-				}
+                        entries.stream.filter(s -> s.kind == 'src' && s.hasProperty('output')).each { source ->
+			        source.output = map.get(source.path) ?: defaultOutputDir
 			}
 		}
 	}

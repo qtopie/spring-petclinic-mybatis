@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package org.springframework.samples.petclinic.util;
+package org.springframework.samples.petclinic.config;
 
-import com.google.common.net.HttpHeaders;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.stream.Collectors;
+
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -35,7 +36,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.ApiKeyVehicle;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Java config for Springfox swagger documentation plugin
@@ -43,15 +43,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author Vitaliy Fedoriv
  */
 @Configuration
-@EnableSwagger2
-@ComponentScan(basePackages = "org.springframework.samples.petclinic.rest")
 public class SwaggerConfig {
 
   public static final String BEARER_API_KEY = "bearer";
 
   @Bean
-  public Docket customDocket() {
-    return new Docket(DocumentationType.SWAGGER_2)
+  public Docket docket() {
+    return new Docket(DocumentationType.OAS_30)
         .select()
         .apis(RequestHandlerSelectors.any())
         .paths(PathSelectors.any())

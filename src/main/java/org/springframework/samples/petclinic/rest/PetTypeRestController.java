@@ -16,6 +16,10 @@
 
 package org.springframework.samples.petclinic.rest;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Example;
+import io.swagger.annotations.ExampleProperty;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.transaction.Transactional;
@@ -46,7 +50,7 @@ public class PetTypeRestController {
 
   @Autowired private ClinicService clinicService;
 
-  @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Collection<PetType>> getAllPetTypes() {
     Collection<PetType> petTypes = new ArrayList<PetType>();
     petTypes.addAll(this.clinicService.findAllPetTypes());
@@ -56,7 +60,7 @@ public class PetTypeRestController {
     return new ResponseEntity<Collection<PetType>>(petTypes, HttpStatus.OK);
   }
 
-  @GetMapping(value = "/{petTypeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @GetMapping(value = "/{petTypeId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<PetType> getPetType(@PathVariable("petTypeId") int petTypeId) {
     PetType petType = this.clinicService.findPetTypeById(petTypeId);
     if (petType == null) {
@@ -65,7 +69,16 @@ public class PetTypeRestController {
     return new ResponseEntity<PetType>(petType, HttpStatus.OK);
   }
 
-  @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiResponses(
+      @ApiResponse(
+          code = 200,
+          message = "OK",
+          examples =
+              @Example(
+                  @ExampleProperty(
+                      mediaType = "application/json",
+                      value = "{\"gnarf\": \"dragons\"}"))))
   public ResponseEntity<PetType> addPetType(
       @RequestBody @Valid PetType petType,
       BindingResult bindingResult,
@@ -83,7 +96,7 @@ public class PetTypeRestController {
     return new ResponseEntity<PetType>(petType, headers, HttpStatus.CREATED);
   }
 
-  @PutMapping(value = "/{petTypeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @PutMapping(value = "/{petTypeId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<PetType> updatePetType(
       @PathVariable("petTypeId") int petTypeId,
       @RequestBody @Valid PetType petType,
@@ -104,7 +117,7 @@ public class PetTypeRestController {
     return new ResponseEntity<PetType>(currentPetType, HttpStatus.NO_CONTENT);
   }
 
-  @DeleteMapping(value = "/{petTypeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @DeleteMapping(value = "/{petTypeId}", produces = MediaType.APPLICATION_JSON_VALUE)
   @Transactional
   public ResponseEntity<Void> deletePetType(@PathVariable("petTypeId") int petTypeId) {
     PetType petType = this.clinicService.findPetTypeById(petTypeId);

@@ -2,6 +2,8 @@
 
 基于mybatis的 [spring-petclinic](http://projects.spring.io/spring-petclinic/) (源于spring官方的一个宠物诊所网站示例)。
 
+*这个项目仅供参考，个人觉得有许多地方的设计需要重构*
+
 ## 示例内容
 * SpringBoot
 * SpringMVC (REST API)

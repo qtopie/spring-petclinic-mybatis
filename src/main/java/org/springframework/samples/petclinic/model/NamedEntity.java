@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotEmpty;
@@ -29,6 +30,7 @@ import javax.validation.constraints.NotEmpty;
 @MappedSuperclass
 public class NamedEntity extends BaseEntity {
 
+  @ApiModelProperty(example = "name1")
   @Column(name = "name")
   @NotEmpty
   private String name;

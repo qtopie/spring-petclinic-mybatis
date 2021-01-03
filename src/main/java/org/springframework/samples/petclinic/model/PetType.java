@@ -19,4 +19,5 @@ import javax.persistence.Table;
 
 /** @author Juergen Hoeller Can be Cat, Dog, Hamster... */
 @Table(name = "types")
+// @Valid
 public class PetType extends NamedEntity {}

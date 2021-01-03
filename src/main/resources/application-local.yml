@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    initialization-mode: NEVER
+    # allow multi queries or use java 8 default method to execute multiple sql
+    url: jdbc:mysql://${dbHost:127.0.0.1}:3306/petclinic?useUnicode=true&allowMultiQueries=true
+    username: root
+    password: petclinic
+    #----------------------------------------------------------------
+    # MySQL config end 

@@ -1,0 +1,15 @@
+spring:
+  messages:
+    basename: messages/messages
+
+server:
+  port: 9966
+  servlet:
+    contextPath: /petclinic
+
+basic:
+  authentication:
+  enabled: true
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml

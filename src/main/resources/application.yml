@@ -1,50 +1,5 @@
-# active profiles config
-#
-# application use two active profiles
-#
-# one for select repository layer
-# ------------------------------------------------
-# When using HSQL, use: hsqldb
-# When using MySQL, use: mysql
-# When using PostgeSQL, use: postgresql
-# ------------------------------------------------
-#
-# one - for select database
-# ------------------------------------------------
-# When using Spring jpa, use: jpa
-# When using Spring JDBC, use: jdbc
-# When using Spring Data JPA, use: spring-data-jpa
-# ------------------------------------------------
-
+# This yaml file only contents the active profiles
 spring:
   profiles:
-    active: mysql,spring-data-jpa
-  messages:
-    basename: messages/messages
-
-# ------------------------------------------------
-
-server:
-  port: 9966
-  servlet:
-    contextPath: /petclinic
-
-
-#logging:
-#  level:
-#    org:
-#      springframework=INFO
-#logging.level.org.springframework=DEBUG
-
-#logging.level.org.hibernate.SQL=DEBUG
-#logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
-
-  
-basic:
-  authentication:
-  enabled: true
-    
-
-
-mybatis:
-  mapper-locations: classpath*:mapper/*.xml
+    include: shared
+    active: local

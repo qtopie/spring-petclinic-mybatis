@@ -13,19 +13,10 @@ plugins {
 
 repositories {
   mavenLocal()
-  maven { url 'https://maven.aliyun.com/repository/public' }
   jcenter()
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-configurations {
-  developmentOnly
-  runtimeClasspath {
-    extendsFrom developmentOnly
-  }
-}
+sourceCompatibility = JavaVersion.VERSION_11
 
 dependencies {
   compile('org.springframework.boot:spring-boot-starter-web')

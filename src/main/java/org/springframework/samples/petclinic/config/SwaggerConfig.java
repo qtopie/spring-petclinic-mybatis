@@ -25,6 +25,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
@@ -41,6 +42,7 @@ import springfox.documentation.swagger.web.ApiKeyVehicle;
  * @author Vitaliy Fedoriv
  */
 @Configuration
+@EnableOpenApi
 public class SwaggerConfig {
 
   public static final String BEARER_API_KEY = "bearer";
@@ -55,15 +57,17 @@ public class SwaggerConfig {
         .apiInfo(getApiInfo())
         .securitySchemes(Collections.singletonList(apiKey()))
         .securityContexts(
-            Collections.singletonList(
-                SecurityContext.builder()
-                    .securityReferences(
-                        Collections.singletonList(
-                            SecurityReference.builder()
-                                .reference(BEARER_API_KEY)
-                                .scopes(new AuthorizationScope[0])
-                                .build()))
-                    .build()));
+            Collections.singletonList(securityContext()));
+  }
+
+  private SecurityContext securityContext() {
+    return SecurityContext.builder()
+    .securityReferences(
+        Collections.singletonList(
+            SecurityReference.builder()
+                .reference(BEARER_API_KEY)
+                .scopes(new AuthorizationScope[0])
+                .build())).build();
   }
 
   private ApiInfo getApiInfo() {

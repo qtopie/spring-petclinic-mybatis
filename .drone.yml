@@ -9,7 +9,7 @@ platform:
 steps:
 # TODO: seprate UT with integration test
 - name: test
-  image: gradle:5.6-jdk8
+  image: gradle:6.6.1-jdk11
   environment:
     GRADLE_USER_HOME: ~/.gradle
   commands:

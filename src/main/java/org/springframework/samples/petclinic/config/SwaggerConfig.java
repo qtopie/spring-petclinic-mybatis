@@ -56,18 +56,18 @@ public class SwaggerConfig {
         .build()
         .apiInfo(getApiInfo())
         .securitySchemes(Collections.singletonList(apiKey()))
-        .securityContexts(
-            Collections.singletonList(securityContext()));
+        .securityContexts(Collections.singletonList(securityContext()));
   }
 
   private SecurityContext securityContext() {
     return SecurityContext.builder()
-    .securityReferences(
-        Collections.singletonList(
-            SecurityReference.builder()
-                .reference(BEARER_API_KEY)
-                .scopes(new AuthorizationScope[0])
-                .build())).build();
+        .securityReferences(
+            Collections.singletonList(
+                SecurityReference.builder()
+                    .reference(BEARER_API_KEY)
+                    .scopes(new AuthorizationScope[0])
+                    .build()))
+        .build();
   }
 
   private ApiInfo getApiInfo() {

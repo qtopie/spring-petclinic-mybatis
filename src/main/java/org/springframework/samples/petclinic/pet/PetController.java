@@ -8,10 +8,6 @@ package org.springframework.samples.petclinic.pet;
 
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author qtopierw
- */
+/** @author qtopierw */
 @RestController
-public class PetController {
-  
-}
+public class PetController {}

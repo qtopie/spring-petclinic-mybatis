@@ -6,9 +6,5 @@
 
 package org.springframework.samples.petclinic.pet;
 
-/**
- * @author qtopierw
- */
-public interface PetMapper {
-  
-}
+/** @author qtopierw */
+public interface PetMapper {}

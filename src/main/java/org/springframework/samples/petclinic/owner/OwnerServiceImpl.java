@@ -8,23 +8,18 @@ package org.springframework.samples.petclinic.owner;
 
 import java.util.List;
 import java.util.Objects;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-/**
- * @author qtopierw
- */
+/** @author qtopierw */
 @Service
 public class OwnerServiceImpl implements OwnerService {
-  
+
   private final OwnerMapper ownerMapper;
 
-  /**
-   * @param ownerMapper
-   */
+  /** @param ownerMapper */
   public OwnerServiceImpl(OwnerMapper ownerMapper) {
     this.ownerMapper = ownerMapper;
   }
@@ -41,6 +36,4 @@ public class OwnerServiceImpl implements OwnerService {
 
     ownerMapper.saveOrUpdate(owner);
   }
-
-  
 }

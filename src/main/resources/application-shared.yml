@@ -1,4 +1,7 @@
 spring:
+  mvc:
+    converters:
+      preferred-json-mapper: gson
   messages:
     basename: messages/messages
 

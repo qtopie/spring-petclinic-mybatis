@@ -6,9 +6,10 @@
 
 package org.springframework.samples.petclinic.pet;
 
-/**
- * @author qtopierw
- */
-public class PetType {
-  
+import org.springframework.samples.petclinic.model.NamedEntity;
+
+/** @author qtopierw */
+public class PetType extends NamedEntity {
+  /** Default serial version UID */
+  private static final long serialVersionUID = 1L;
 }

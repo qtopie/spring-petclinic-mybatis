@@ -9,20 +9,17 @@ package org.springframework.samples.petclinic.owner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-/**
- * @author qtopierw
- */
+/** @author qtopierw */
 public interface OwnerService {
-  
+
   /**
    * Get owners by page
+   *
    * @param pageable
    * @return
    */
   Page<Owner> getOwners(Pageable pageable);
 
-  /**
-   * create or update owner
-   */
+  /** create or update owner */
   void saveOrUpdate(Owner owner);
 }

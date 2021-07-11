@@ -19,7 +19,8 @@ sourceCompatibility = JavaVersion.VERSION_11
 dependencies {
   implementation('org.springframework.boot:spring-boot-starter-web')
   implementation('org.springframework.boot:spring-boot-starter-validation')
-  implementation "io.springfox:springfox-boot-starter:3.0.0"
+  implementation("io.springfox:springfox-boot-starter:3.0.0")
+  implementation("com.google.code.gson:gson:2.8.7")
 
   implementation('org.springframework.data:spring-data-commons')
   implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0")
@@ -27,12 +28,19 @@ dependencies {
   runtimeOnly 'mysql:mysql-connector-java'
 
   testImplementation('org.springframework.boot:spring-boot-starter-test')
-  
+
   developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 tasks.withType(JavaCompile) {
   options.encoding = "UTF-8"
+}
+
+eclipse {
+  classpath {
+    downloadJavadoc = true
+    downloadSources = true
+  }
 }
 
 spotless {

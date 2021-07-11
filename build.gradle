@@ -1,14 +1,12 @@
 plugins {
-  id 'org.sonarqube' version '3.0'
-  id 'jacoco'
   id 'java'
   id 'eclipse'
-  //  id 'checkstyle'
-  //  id 'findbugs'
-  id "org.springframework.boot" version "${springBootVersion}"
-  id "io.spring.dependency-management" version "1.0.9.RELEASE"
-  id "io.github.artificerpi.spring-auto-asciidoc" version "0.6.2"
   id "com.diffplug.spotless" version "5.1.0"
+  id 'org.sonarqube' version '3.0'
+  id 'jacoco'
+  id 'checkstyle'
+  id "org.springframework.boot" version "${springBootVersion}"
+  id "io.spring.dependency-management" version "1.0.11.RELEASE"
 }
 
 repositories {
@@ -19,72 +17,27 @@ repositories {
 sourceCompatibility = JavaVersion.VERSION_11
 
 dependencies {
-  compile('org.springframework.boot:spring-boot-starter-web')
-  compile('org.springframework.boot:spring-boot-starter-aop')
-  compile('org.springframework.boot:spring-boot-starter-cache')
-
-  compile('org.springframework.boot:spring-boot-starter-data-jpa')
-  compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0")
-
-  compile('com.fasterxml.jackson.core:jackson-core')
-  compile('com.fasterxml.jackson.core:jackson-databind')
-  compile('javax.xml.bind:jaxb-api:' + jaxbApiVersion)
-  compile 'javax.validation:validation-api:2.0.1.Final'
-
+  implementation('org.springframework.boot:spring-boot-starter-web')
+  implementation('org.springframework.boot:spring-boot-starter-validation')
   implementation "io.springfox:springfox-boot-starter:3.0.0"
 
-  runtime('mysql:mysql-connector-java')
+  implementation('org.springframework.data:spring-data-commons')
+  implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0")
 
-  testCompile('org.springframework.boot:spring-boot-starter-test')
-  testCompile('org.springframework.security:spring-security-test')
-  testCompile('org.mockito:mockito-core')
-  testCompile('org.hamcrest:hamcrest-all:' + hamcrestVersion)
-  testCompile('com.jayway.jsonpath:json-path')
-  testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
+  runtimeOnly 'mysql:mysql-connector-java'
 
+  testImplementation('org.springframework.boot:spring-boot-starter-test')
+  
   developmentOnly("org.springframework.boot:spring-boot-devtools")
-}
-
-asciidoctor {
-  attributes "classname-pattern": "(\\w+(\\-\\w+)*)-rest-controller-tests"
-}
-
-bootJar {
-  dependsOn asciidoctor
 }
 
 tasks.withType(JavaCompile) {
   options.encoding = "UTF-8"
 }
 
-eclipse {
-  project.natures 'org.eclipse.buildship.core.gradleprojectnature'
-  classpath {
-    downloadJavadoc = true
-    downloadSources = true
-
-    // Just a workaround, but this issue should be fixed in gradle :<
-    defaultOutputDir = file('build/default')
-    def map = [
-      'src/main/java' : 'build/classes/java/main',
-      'src/main/resources': 'build/resources/main',
-      'src/test/java': 'build/classes/java/test',
-      'src/test/resources': 'build/resources/test'
-    ]
-
-    file.whenMerged {
-      entries.each { source ->
-        if (source.kind == 'src' && source.hasProperty('output')) {
-          source.output = map.get(source.path) ?: defaultOutputDir
-        }
-      }
-    }
-  }
-}
-
 spotless {
   java {
-    googleJavaFormat('1.6')
+    googleJavaFormat('1.9')
   }
 
   groovyGradle {
@@ -93,3 +46,7 @@ spotless {
   }
 }
 spotlessCheck.dependsOn spotlessApply
+
+checkstyle {
+  toolVersion '8.42'
+}

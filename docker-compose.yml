@@ -1,12 +1,23 @@
-mysql:
-  image: mysql:8
-  ports:
-    - "3306:3306"
-  environment:
-    - MYSQL_ROOT_PASSWORD=petclinic
-    - MYSQL_DATABASE=petclinic
-    - MYSQL_USER=tester
-    - MYSQL_PASSWORD=petclinic
-  volumes:
-    - ./db/schema.sql:/docker-entrypoint-initdb.d/00-schema.sql:ro
-    - ./db/data.sql:/docker-entrypoint-initdb.d/01-data.sql:ro
+version: '3'
+
+services:
+  mysql:
+    image: mysql:8
+    networks:
+      - db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=petclinic
+      - MYSQL_DATABASE=petclinic
+      - MYSQL_USER=tester
+      - MYSQL_PASSWORD=petclinic
+    volumes:
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/00-schema.sql:ro
+      - ./db/data.sql:/docker-entrypoint-initdb.d/01-data.sql:ro
+  
+networks:
+  db:
+    ipam:
+      config:
+        - subnet: 192.168.184.0/24

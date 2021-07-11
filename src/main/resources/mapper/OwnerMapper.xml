@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.springframework.samples.petclinic.owner.OwnerMapper">
+    <sql id="owner_column_list">
+      id, first_name, last_name, address, city, telephone
+    </sql>
+
+    <resultMap id="owners" type="org.springframework.samples.petclinic.owner.Owner">
+        <id column="id" property="id" />
+        <result column="first_name" property="firstName" />
+        <result column="last_name" property="lastName" />
+    </resultMap>
+
+    <insert id="saveOrUpdate" useGeneratedKeys="true" keyProperty="id" 
+    	parameterType="org.springframework.samples.petclinic.owner.Owner">
+    	INSERT INTO owners
+    		(
+          <include refid="owner_column_list"/>
+        ) 
+    	VALUES(
+	    	#{id}, 
+	    	#{firstName}, 
+	    	#{lastName},
+	    	#{address}, 
+	    	#{city}, 
+	    	#{telephone}
+    		)
+    	ON DUPLICATE KEY UPDATE 
+    		first_name=#{firstName},
+    		last_name=#{lastName},
+    		address=#{address},
+    		city=#{city},
+    		telephone=#{telephone};
+    </insert>
+
+    <select id="findOwner" resultMap="owners">
+      SELECT
+      <include refid="owner_column_list"/>
+      FROM owners
+    </select>
+</mapper>

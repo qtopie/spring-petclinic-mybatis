@@ -20,4 +20,9 @@ public interface OwnerService {
    * @return
    */
   Page<Owner> getOwners(Pageable pageable);
+
+  /**
+   * create or update owner
+   */
+  void saveOrUpdate(Owner owner);
 }

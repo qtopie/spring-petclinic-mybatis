@@ -7,3 +7,8 @@ spring:
     password: petclinic
     #----------------------------------------------------------------
     # MySQL config end 
+
+logging:
+  level:
+    org: 
+      mybatis: debug

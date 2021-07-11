@@ -16,6 +16,9 @@ import org.springframework.samples.petclinic.pet.Pet;
 /** @author qtopierw */
 public class Owner extends Person {
   
+  /** Default serial version UID */
+  private static final long serialVersionUID = 1L;
+  
   private String address;
 
   private String city;

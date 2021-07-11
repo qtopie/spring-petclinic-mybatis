@@ -34,12 +34,13 @@ public class OwnerController {
 
   @PostMapping
   public void addOwner(@RequestBody Owner owner) {
-
+    ownerService.saveOrUpdate(owner);
   }
 
-  @PutMapping("{ownerId}")
-  public void updateOwner(@PathVariable String ownerId, @RequestBody Owner owner) {
-
+  @PutMapping("/{ownerId}")
+  public void updateOwner(@PathVariable Integer ownerId, @RequestBody Owner owner) {
+    owner.setId(ownerId);
+    ownerService.saveOrUpdate(owner);
   }
 
 }

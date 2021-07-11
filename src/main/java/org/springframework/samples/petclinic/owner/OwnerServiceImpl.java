@@ -6,6 +6,12 @@
 
 package org.springframework.samples.petclinic.owner;
 
+import java.util.List;
+import java.util.Objects;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,6 +27,19 @@ public class OwnerServiceImpl implements OwnerService {
    */
   public OwnerServiceImpl(OwnerMapper ownerMapper) {
     this.ownerMapper = ownerMapper;
+  }
+
+  @Override
+  public Page<Owner> getOwners(Pageable pageable) {
+    List<Owner> owners = ownerMapper.findOwner();
+    return new PageImpl<>(owners, pageable, 0);
+  }
+
+  @Override
+  public void saveOrUpdate(Owner owner) {
+    Objects.requireNonNull(owner);
+
+    ownerMapper.saveOrUpdate(owner);
   }
 
   

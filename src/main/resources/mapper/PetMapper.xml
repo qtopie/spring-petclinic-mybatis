@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.springframework.samples.petclinic.pet.PetMapper">
+  <sql id="pet_column_list">
+      id, name, birth_date, type_id, owner_id
+  </sql>
+
+  <resultMap id="petMap" type="Pet">
+    <id column="id" property="id" />
+    <result column="owner_id" property="owner" />
+    <association property="type" javaType="PetType" column="type_id" foreignColumn="id" select="findPetTypeByTypeId" />
+    <collection property="visits" ofType="Visit" column="id" foreignColumn="pet_id" select="org.springframework.samples.petclinic.visit.VisitMapper.findByPetId" />
+    <!-- other properties are auto mapped  -->
+  </resultMap>
+
+  <select id="findById" resultMap="petMap">
+    SELECT
+    <include refid="pet_column_list" />
+    FROM pets WHERE id = #{id}
+  </select>
+
+  <select id="findByOwnerId" resultMap="petMap">
+    SELECT
+    <include refid="pet_column_list" />
+    FROM pets WHERE owner_id = #{ownerId}
+  </select>
+
+  <sql id="pet_type_column_list">
+      id, name
+  </sql>
+
+  <resultMap id="petTypeMap" type="PetType">
+    <id column="id" property="id" />
+  </resultMap>
+
+  <select id="findPetTypeByTypeId" resultMap="petTypeMap">
+    SELECT
+    <include refid="pet_type_column_list" />
+    FROM pets WHERE id = #{typeId}
+  </select>
+
+</mapper>

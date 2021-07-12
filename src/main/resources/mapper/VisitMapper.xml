@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.springframework.samples.petclinic.visit.VisitMapper">
+  <sql id="visit_column_list">
+      id, pet_id, visit_date, description
+    </sql>
+
+  <resultMap id="visitMap" type="Visit">
+    <id column="id" property="id" />
+    <result column="visit_date" property="date" />
+    <!-- other properties are auto mapped  -->
+  </resultMap>
+
+  <select id="findById" resultMap="visitMap">
+    SELECT
+    <include refid="visit_column_list" />
+    FROM visits WHERE id = #{id}
+  </select>
+
+  <select id="findByPetId" resultMap="visitMap">
+    SELECT
+    <include refid="visit_column_list" />
+    FROM visits WHERE pet_id = #{petId}
+  </select>
+</mapper>

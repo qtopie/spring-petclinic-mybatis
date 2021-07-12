@@ -11,4 +11,8 @@ server:
     contextPath: /petclinic
 
 mybatis:
- mapper-locations: classpath*:mapper/*Mapper.xml
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  type-aliases-package: org.springframework.samples.petclinic
+  type-aliases-super-type: org.springframework.samples.petclinic.model.BaseEntity
+  mapUnderscoreToCamelCase: true
+   

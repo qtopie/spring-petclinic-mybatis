@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.springframework.samples.petclinic.vet.VetMapper">
+  <sql id="vet_column_list">
+      id, first_name, last_name
+    </sql>
+
+  <resultMap id="vetMap" type="Vet">
+    <id column="id" property="id" />
+    <collection property="specialties" ofType="Specialty" column="id" select="findSpecialtiesByVetId" />
+  </resultMap>
+
+  <select id="findById" resultMap="vetMap">
+    SELECT
+    <include refid="vet_column_list" />
+    FROM vets WHERE id = #{id}
+  </select>
+
+  <sql id="specialties_column_list">
+      id, name
+    </sql>
+
+  <resultMap id="specialtyMap" type="Specialty">
+    <id column="id" property="id" />
+  </resultMap>
+
+  <select id="findSpecialtiesByVetId" resultMap="specialtyMap">
+    SELECT
+    <include refid="specialties_column_list" />
+    FROM specialties WHERE id IN(
+      SELECT specialty_id FROM vet_specialties WHERE vet_id = #{vetId}
+    )
+  </select>
+ 
+</mapper>

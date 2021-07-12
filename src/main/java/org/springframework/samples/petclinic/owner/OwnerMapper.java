@@ -7,6 +7,7 @@
 package org.springframework.samples.petclinic.owner;
 
 import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 /** @author qtopierw */
@@ -19,6 +20,13 @@ public interface OwnerMapper {
    * @return
    */
   List<Owner> findOwner();
+
+  /**
+   * Find Owner by ID
+   * @param id
+   * @return
+   */
+  Owner findById(Integer id);
 
   /** save or update owner */
   void saveOrUpdate(Owner owner);

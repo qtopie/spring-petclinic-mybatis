@@ -10,8 +10,8 @@ plugins {
 }
 
 repositories {
-  mavenLocal()
   jcenter()
+  mavenLocal()
 }
 
 sourceCompatibility = JavaVersion.VERSION_11

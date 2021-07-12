@@ -7,9 +7,14 @@
 package org.springframework.samples.petclinic.owner;
 
 import java.util.Set;
+
 import javax.validation.constraints.Digits;
+
 import org.springframework.samples.petclinic.model.Person;
 import org.springframework.samples.petclinic.pet.Pet;
+
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModelProperty.AccessMode;
 
 /** @author qtopierw */
 public class Owner extends Person {
@@ -24,8 +29,8 @@ public class Owner extends Person {
   @Digits(fraction = 0, integer = 10)
   private String telephone;
 
-  // @Expose(deserialize = false)
-  private transient Set<Pet> pets;
+  @ApiModelProperty(accessMode = AccessMode.READ_ONLY)
+  private Set<Pet> pets;
 
   /** @return the address */
   public String getAddress() {

@@ -1,24 +1,21 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.springframework.samples.petclinic.owner.OwnerMapper">
-    <sql id="owner_column_list">
+  <sql id="owner_column_list">
       id, first_name, last_name, address, city, telephone
     </sql>
 
-    <resultMap id="owners" type="org.springframework.samples.petclinic.owner.Owner">
-        <id column="id" property="id" />
-        <result column="first_name" property="firstName" />
-        <result column="last_name" property="lastName" />
-    </resultMap>
+  <resultMap id="ownerMap" type="Owner">
+    <id column="id" property="id" />
+    <collection property="pets" ofType="Pet" column="id" foreignColumn="owner_id" select="org.springframework.samples.petclinic.pet.PetMapper.findByOwnerId" />
+    <!-- other properties are auto mapped  -->
+  </resultMap>
 
-    <insert id="saveOrUpdate" useGeneratedKeys="true" keyProperty="id" 
-    	parameterType="org.springframework.samples.petclinic.owner.Owner">
-    	INSERT INTO owners
+  <insert id="saveOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="Owner">
+    INSERT INTO owners
     		(
-          <include refid="owner_column_list"/>
-        ) 
+    <include refid="owner_column_list" />
+    ) 
     	VALUES(
 	    	#{id}, 
 	    	#{firstName}, 
@@ -33,11 +30,17 @@
     		address=#{address},
     		city=#{city},
     		telephone=#{telephone};
-    </insert>
+  </insert>
 
-    <select id="findOwner" resultMap="owners">
-      SELECT
-      <include refid="owner_column_list"/>
-      FROM owners
-    </select>
+  <select id="findById" resultMap="ownerMap">
+    SELECT
+    <include refid="owner_column_list" />
+    FROM owners WHERE id = #{id}
+  </select>
+
+  <select id="findOwner" resultMap="ownerMap">
+    SELECT
+    <include refid="owner_column_list" />
+    FROM owners
+  </select>
 </mapper>

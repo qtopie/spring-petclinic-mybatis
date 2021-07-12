@@ -8,8 +8,8 @@ package org.springframework.samples.petclinic.pet;
 
 import java.util.Date;
 import java.util.Set;
+
 import org.springframework.samples.petclinic.model.NamedEntity;
-import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.samples.petclinic.visit.Visit;
 
 /** @author qtopierw */
@@ -22,7 +22,7 @@ public class Pet extends NamedEntity {
 
   private PetType type;
 
-  private Owner owner;
+  private Integer owner;
 
   private Set<Visit> visits;
 
@@ -46,16 +46,6 @@ public class Pet extends NamedEntity {
     this.type = type;
   }
 
-  /** @return the owner */
-  public Owner getOwner() {
-    return owner;
-  }
-
-  /** @param owner the owner to set */
-  public void setOwner(Owner owner) {
-    this.owner = owner;
-  }
-
   /** @return the visits */
   public Set<Visit> getVisits() {
     return visits;
@@ -66,23 +56,29 @@ public class Pet extends NamedEntity {
     this.visits = visits;
   }
 
+  /**
+   * @return the owner
+   */
+  public Integer getOwner() {
+    return owner;
+  }
+
+  /**
+   * @param owner the owner to set
+   */
+  public void setOwner(Integer owner) {
+    this.owner = owner;
+  }
+
   /*
    * (non-Javadoc)
-   *
+   * 
    * @see java.lang.Object#toString()
    */
 
   @Override
   public String toString() {
-    return super.toString()
-        + "Pet [birthDate="
-        + birthDate
-        + ", owner="
-        + owner
-        + ", type="
-        + type
-        + ", visits="
-        + visits
-        + "]";
+    return super.toString() + "Pet [birthDate=" + birthDate + ", owner=" + owner + ", type=" + type + ", visits=" + visits + "]";
   }
+
 }
